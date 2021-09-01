@@ -1,0 +1,81 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "ConsoleApp1/1.0.0": {
+        "dependencies": {
+          "SolidWorks.Interop.sldworks": "28.3.0.86",
+          "SolidWorks.Interop.swconst": "28.3.0.86",
+          "Interop.SldWorks": "28.0.0.0",
+          "Interop.SwConst": "28.0.0.0"
+        },
+        "runtime": {
+          "ConsoleApp1.dll": {}
+        }
+      },
+      "SolidWorks.Interop.sldworks/28.3.0.86": {
+        "runtime": {
+          "SolidWorks.Interop.sldworks.dll": {
+            "assemblyVersion": "28.3.0.86",
+            "fileVersion": "28.3.0.86"
+          }
+        }
+      },
+      "SolidWorks.Interop.swconst/28.3.0.86": {
+        "runtime": {
+          "SolidWorks.Interop.swconst.dll": {
+            "assemblyVersion": "28.3.0.86",
+            "fileVersion": "28.3.0.86"
+          }
+        }
+      },
+      "Interop.SldWorks/28.0.0.0": {
+        "runtime": {
+          "Interop.SldWorks.dll": {
+            "assemblyVersion": "28.0.0.0",
+            "fileVersion": "28.0.0.0"
+          }
+        }
+      },
+      "Interop.SwConst/28.0.0.0": {
+        "runtime": {
+          "Interop.SwConst.dll": {
+            "assemblyVersion": "28.0.0.0",
+            "fileVersion": "28.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ConsoleApp1/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SolidWorks.Interop.sldworks/28.3.0.86": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SolidWorks.Interop.swconst/28.3.0.86": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Interop.SldWorks/28.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Interop.SwConst/28.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

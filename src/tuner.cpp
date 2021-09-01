@@ -33,12 +33,10 @@ public:
     { 
         sim_rate.AddPoint(t,0);
         des_rate.AddPoint(t,0);
+        tau0.AddPoint(t,0);
         tau1.AddPoint(t,0);
         tau2.AddPoint(t,0);
         tau3.AddPoint(t,0);
-        tau4.AddPoint(t,0);
-        tau5.AddPoint(t,0);
-        compTime.AddPoint(t,0);
     }
 
     ~SimTuner() {
@@ -56,48 +54,47 @@ public:
             compTime.AddPoint(t,ms_times_data[1]);
             calc_times_1s.push_back(ms_times_data[1]);
 
-            tau1.AddPoint(t,ms_qs_data[0]);
-            tau2.AddPoint(t,ms_qs_data[1]);
-            tau3.AddPoint(t,ms_qs_data[2]);
-            tau4.AddPoint(t,ms_qs_data[3]);
-            tau5.AddPoint(t,ms_qs_data[4]);
+            tau0.AddPoint(t,ms_qs_data[0]);
+            tau1.AddPoint(t,ms_qs_data[1]);
+            tau2.AddPoint(t,ms_qs_data[2]);
+            tau3.AddPoint(t,ms_qs_data[3]);
+    
+            q0 = ms_qs_data[4];
             q1 = ms_qs_data[5];
             q2 = ms_qs_data[6];
             q3 = ms_qs_data[7];
-            q4 = ms_qs_data[8];
-            q5 = ms_qs_data[9];
         }
         ImGui::Begin("PD Tuner");
         ImGui::BeginGroup();
             ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.3f);
-            ImGui::DragDouble("Kp Elbow",&kpe,0,0,50);
-            ImGui::DragDouble("Kd Elbow",&kde,0,0,10);
-            ImGui::DragDouble("Kp Forearm",&kpf,0,0,50);
-            ImGui::DragDouble("Kd Forearm",&kdf,0,0,10);
-            ImGui::DragDouble("Kp Parallel",&kp,0,0,1000);
-            ImGui::DragDouble("Kd Parallel",&kd,0,0,100);
+            ImGui::DragDouble("Kp Elbow",&kp0,0,0,50);
+            ImGui::DragDouble("Kd Elbow",&kd0,0,0,10);
+            ImGui::DragDouble("Kp Forearm",&kp1,0,0,50);
+            ImGui::DragDouble("Kd Forearm",&kd1,0,0,10);
+            ImGui::DragDouble("Kp Wrist FE",&kp2,0,0,1000);
+            ImGui::DragDouble("Kd Wrist FE",&kd2,0,0,100);
+            ImGui::DragDouble("Kp Wrist RU",&kp3,0,0,1000);
+            ImGui::DragDouble("Kd Wrist RU",&kd3,0,0,100);
             ImGui::DragDouble("Khard",&k_hard,0,0,20000);
             ImGui::DragDouble("Bhard",&b_hard,0,0,2000);
         ImGui::EndGroup();
         ImGui::SameLine();
         ImGui::BeginGroup();
-            ImGui::DragDouble("Elbow ref (rad)",&q_ref1,0.005f,-PI/2-0.5,0.5,"%.4f");
-            ImGui::DragDouble("Forearm ref (rad)",&q_ref2,0.005f,-PI,PI,"%.4f");
-            ImGui::DragDouble("Link 1 ref (m)",&q_ref3,0.0001f,0.03,0.15,"%.4f");    
-            ImGui::DragDouble("Link 2 ref (m)",&q_ref4,0.0001f,0.03,0.15,"%.4f");   
-            ImGui::DragDouble("Link 3 ref (m)",&q_ref5,0.0001f,0.03,0.15,"%.4f");    
-            ImGui::DragDouble("Elbow pos (rad)",&q1,0.0001f,0.03,0.15,"%.4f");
-            ImGui::DragDouble("Forearm pos (rad)",&q2,0.0001f,0.03,0.15,"%.4f");    
-            ImGui::DragDouble("Link 1 pos (m)",&q3,0.0001f,0.03,0.15,"%.4f");
-            ImGui::DragDouble("Link 2 pos (m)",&q4,0.0001f,0.03,0.15,"%.4f");
-            ImGui::DragDouble("Link 3 pos (m)",&q5,0.0001f,0.03,0.15,"%.4f");
+            ImGui::DragDouble("Elbow ref (rad)",&q_ref0,0.005f,-PI/2-0.5,0.5,"%.4f");
+            ImGui::DragDouble("Forearm ref (rad)",&q_ref1,0.005f,-PI,PI,"%.4f");
+            ImGui::DragDouble("Wrist FE ref (rad)",&q_ref2,0.005f,-PI/2,PI/2,"%.4f");    
+            ImGui::DragDouble("Wrist RU ref (rad)",&q_ref3,0.005f,-PI/2,PI/2,"%.4f");   
+            ImGui::DragDouble("Elbow pos (rad)",&q0,0.0001f,0.03,0.15,"%.4f");
+            ImGui::DragDouble("Forearm pos (rad)",&q1,0.0001f,0.03,0.15,"%.4f");    
+            ImGui::DragDouble("Wrist FE pos (m)",&q2,0.0001f,0.03,0.15,"%.4f");
+            ImGui::DragDouble("Wrist RU pos (m)",&q3,0.0001f,0.03,0.15,"%.4f");
             ImGui::PopItemWidth();
         ImGui::EndGroup();
         int mean_calc_time = int(mean(calc_times_1s.get_vector()));
         ImGui::InputInt("Mean Calc Time",&mean_calc_time);
 
         ImPlot::SetNextPlotLimits(t-10, t, 0, 1500, ImGuiCond_Always);
-        if(ImPlot::BeginPlot("##Sim Time", "Time (s)", "Sim Rate (us)", {-1,300}, ImPlotFlags_Default, rt_axis, rt_axis)){
+        if(ImPlot::BeginPlot("##Sim Time", "Time (s)", "Sim Rate (us)", {-1,300}, 0, rt_axis, rt_axis)){
             ImPlot::PlotLine("Sim Loop Time", &sim_rate.Data[0].x, &sim_rate.Data[0].y, sim_rate.Data.size(), sim_rate.Offset, 2 * sizeof(float));
             ImPlot::PlotLine("Desired Sim Loop Time", &des_rate.Data[0].x, &des_rate.Data[0].y, des_rate.Data.size(), des_rate.Offset, 2 * sizeof(float));
             ImPlot::PlotLine("Comp Time", &compTime.Data[0].x, &compTime.Data[0].y, compTime.Data.size(), compTime.Offset, 2 * sizeof(float));
@@ -105,52 +102,50 @@ public:
         }
 
         ImPlot::SetNextPlotLimits(t-10, t, -10, 10, ImGuiCond_Always);
-        if(ImPlot::BeginPlot("##Forces", "Time (s)", "Force (N)", {-1,300}, ImPlotFlags_Default, rt_axis, rt_axis)){
+        if(ImPlot::BeginPlot("##Forces", "Time (s)", "Force (N)", {-1,300}, 0, rt_axis, rt_axis)){
+            ImPlot::PlotLine("Force 0", &tau0.Data[0].x, &tau0.Data[0].y, tau0.Data.size(), tau1.Offset, 2 * sizeof(float));
             ImPlot::PlotLine("Force 1", &tau1.Data[0].x, &tau1.Data[0].y, tau1.Data.size(), tau1.Offset, 2 * sizeof(float));
             ImPlot::PlotLine("Force 2", &tau2.Data[0].x, &tau2.Data[0].y, tau2.Data.size(), tau2.Offset, 2 * sizeof(float));
             ImPlot::PlotLine("Force 3", &tau3.Data[0].x, &tau3.Data[0].y, tau3.Data.size(), tau3.Offset, 2 * sizeof(float));
-            ImPlot::PlotLine("Force 4", &tau4.Data[0].x, &tau4.Data[0].y, tau4.Data.size(), tau4.Offset, 2 * sizeof(float));
-            ImPlot::PlotLine("Force 5", &tau5.Data[0].x, &tau5.Data[0].y, tau5.Data.size(), tau5.Offset, 2 * sizeof(float));
             ImPlot::EndPlot();
         }
 
         t += ImGui::GetIO().DeltaTime;
         ImGui::End();
-        ms_gains.write_data({kp, kd, kpe, kde, kpf, kdf, k_hard, b_hard});
-        ms_refs.write_data({q_ref1, q_ref2, q_ref3, q_ref4, q_ref5});
+        ms_gains.write_data({kp0, kd0, kp1, kd1, kp3, kd3, k_hard, b_hard});
+        ms_refs.write_data({q_ref0, q_ref1, q_ref2, q_ref3});
     }
 
     // Member Variables
-    int rt_axis = ImPlotAxisFlags_Default & ~ImPlotAxisFlags_TickLabels;
+    int rt_axis = 0;//ImPlotAxisFlags_Default & ~ImPlotAxisFlags_TickLabels;
     ScrollingData sim_rate;
     ScrollingData des_rate;
+    ScrollingData tau0;
     ScrollingData tau1;
     ScrollingData tau2;
     ScrollingData tau3;
-    ScrollingData tau4;
-    ScrollingData tau5;
     ScrollingData compTime;
     float t = 0;
     bool tp = true;
     bool enabled = false;
     double k_hard = 200;
     double b_hard = 10;
-    double kp = 2200;
-    double kd = 30;
-    double kpe = 100;
-    double kde = 1.25;
-    double kpf = 28;
-    double kdf = 0.2;
-    double q_ref1 = -mahi::util::PI/4;
+    double kp0 = 125.0;
+    double kd0 = 1.75;
+    double kp1 = 25;
+    double kd1 = 1.15;
+    double kp2 = 20.0;
+    double kd2 = 1.0;
+    double kp3 = 20.0;
+    double kd3 = 0.25;
+    double q_ref0 = 0.0;
+    double q_ref1 = 0.0;
     double q_ref2 = 0.0;
-    double q_ref3 = 0.1;
-    double q_ref4 = 0.1;
-    double q_ref5 = 0.1;
+    double q_ref3 = 0.0;
+    double q0 = 0.0;
     double q1 = 0.0;
     double q2 = 0.0;
-    double q3 = 0.1;
-    double q4 = 0.1;
-    double q5 = 0.1;
+    double q3 = 0.0;
     MelShare ms_gains = MelShare("gains");
     MelShare ms_refs = MelShare("refs");
     MelShare ms_times = MelShare("times");

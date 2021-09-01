@@ -2,23 +2,19 @@
 % 02/04/2017
 
 % =========================================================================
-% This script computes the OpenWrist dynamic equations symbolically using
+% This script computes the MOE dynamic equations symbolically using
 % the Newton-Euler approach, and rearranges all terms in the form:
 % Tau = M(Q)Q" + V(Q,Q') + G(Q) + B.*Q' + Fk.*sign(Q')
-%
-% Requires adding functions from Evan's CraigRobotics Toolbox to PATH:
-% https://github.com/epezent/CraigRobotics
-% =========================================================================
 
 %% Define Symbolic Symbols
-syms tau0 eta0 Jm0 q0 q0d q0dd m0 b0 fk0 ...
-     tau1 eta1 Jm1 q1 q1d q1dd m1 b1 fk1 ...
-     tau2 eta2 Jm2 q2 q2d q2dd m2 b2 fk2 ...
-     tau3 eta3 Jm3 q3 q3d q3dd m3 b3 fk3 ...
-     Pc0x Pc0y Pc0z   Ic0xx Ic0xy Ic0xz Ic0yy Ic0yz Ic0zz ...
-     Pc1x Pc1y Pc1z   Ic1xx Ic1xy Ic1xz Ic1yy Ic1yz Ic1zz ...
-     Pc2x Pc2y Pc2z   Ic2xx Ic2xy Ic2xz Ic2yy Ic2yz Ic2zz ...
-     Pc3x Pc3y Pc3z   Ic3xx Ic3xy Ic3xz Ic3yy Ic3yz Ic3zz ...
+syms tau0 eta0 Jm0 q0 qd0 qdd0 m0 b0 fk0 ...
+     tau1 eta1 Jm1 q1 qd1 qdd1 m1 b1 fk1 ...
+     tau2 eta2 Jm2 q2 qd2 qdd2 m2 b2 fk2 ...
+     tau3 eta3 Jm3 q3 qd3 qdd3 m3 b3 fk3 ...
+     Pcx0 Pcy0 Pcz0   Icxx0 Icxy0 Icxz0 Icyy0 Icyz0 Iczz0 ...
+     Pcx1 Pcy1 Pcz1   Icxx1 Icxy1 Icxz1 Icyy1 Icyz1 Iczz1 ...
+     Pcx2 Pcy2 Pcz2   Icxx2 Icxy2 Icxz2 Icyy2 Icyz2 Iczz2 ...
+     Pcx3 Pcy3 Pcz3   Icxx3 Icxy3 Icxz3 Icyy3 Icyz3 Iczz3 ...
      g
 
 Tau = [tau0; tau1; tau2; tau3];
@@ -27,32 +23,32 @@ Eta = [eta0;eta1;eta2;eta3];
 Jm = [Jm0;Jm1;Jm2;Jm3];
 
 Q = [q0;q1;q2;q3];
-Qd = [q0d;q1d;q2d;q3d];
-Qdd = [q0dd;q1dd;q2dd;q3dd];
+Qd = [qd0;qd1;qd2;qd3];
+Qdd = [qdd0;qdd1;qdd2;qdd3];
 
 B = [b0;b1;b2;b3];
 Fk = [fk0;fk1;fk2;fk3];
 
-Pc0 = [Pc0x Pc0y Pc0z].';
-Pc1 = [Pc1x Pc1y Pc1z].';
-Pc2 = [Pc2x Pc2y Pc2z].';
-Pc3 = [Pc3x Pc3y Pc3z].';
+Pc0 = [Pcx0 Pcy0 Pcz0].';
+Pc1 = [Pcx1 Pcy1 Pcz1].';
+Pc2 = [Pcx2 Pcy2 Pcz2].';
+Pc3 = [Pcx3 Pcy3 Pcz3].';
 
-Ic0 = [Ic0xx -Ic0xy -Ic0xz;
-    -Ic0xy Ic0yy -Ic0yz;
-    -Ic0xz -Ic0yz Ic0zz];
+Ic0 = [Icxx0 -Icxy0 -Icxz0;
+    -Icxy0 Icyy0 -Icyz0;
+    -Icxz0 -Icyz0 Iczz0];
 
-Ic1 = [Ic1xx -Ic1xy -Ic1xz;
-    -Ic1xy Ic1yy -Ic1yz;
-    -Ic1xz -Ic1yz Ic1zz];
+Ic1 = [Icxx1 -Icxy1 -Icxz1;
+    -Icxy1 Icyy1 -Icyz1;
+    -Icxz1 -Icyz1 Iczz1];
 
-Ic2 = [Ic2xx -Ic2xy -Ic2xz;
-    -Ic2xy Ic2yy -Ic2yz;
-    -Ic2xz -Ic2yz Ic2zz];
+Ic2 = [Icxx2 -Icxy2 -Icxz2;
+    -Icxy2 Icyy2 -Icyz2;
+    -Icxz2 -Icyz2 Iczz2];
 
-Ic3 = [Ic3xx -Ic3xy -Ic3xz;
-    -Ic3xy Ic3yy -Ic3yz;
-    -Ic3xz -Ic3yz Ic3zz];
+Ic3 = [Icxx3 -Icxy3 -Icxz3;
+    -Icxy3 Icyy3 -Icyz3;
+    -Icxz3 -Icyz3 Iczz3];
 
 %% Forward Kinematics
 DH_table = [    0     0 0      q0;
@@ -66,18 +62,25 @@ DH_table = [    0     0 0      q0;
 m = [m0;m1;m2;m3];
 Pc = {Pc0 Pc1 Pc2 Pc3};
 Ic = {Ic0 Ic1 Ic2 Ic3};
-g0 = [0; g; 0];
+g0 = [-g; 0; 0];
 MVG = dynamics_newtonian(m,Pc,Ic,T_array,Qd,Qdd,g0);
 MVG = simplify(expand(MVG));
 
 %% Separate MVG into M, V, and G
 [M,V,G] = separate_mvg(MVG,Qdd,g);
 
+%% Write M, V, G to file
+if ~exist('Equations', 'dir')
+    mkdir('Equations')
+end
+ccode(M,'File','Equations/M.txt')
+ccode(V,'File','Equations/V.txt')
+ccode(G,'File','Equations/G.txt')
 %% Get Equation of Motion
 EOM = Tau == M*Qdd + Jm.*Eta.^2.*Qdd + V + G + B.*Qd + Fk.*tanh(10 * Qd);
 
 %% Solved for acclerations ( i.e inv(M) * (Tau - V - G) )
-Qdd_solved = inv(M + diag(Jm.*Eta.^2)) * (Tau - V - G - B.*Qd - Fk.*tanh(10 * Qd));
+Qdd_solved = (M + diag(Jm.*Eta.^2))\(Tau - V - G - B.*Qd - Fk.*tanh(10 * Qd));
 
 %% Numerical Evaluation NOT USING THIS YET
 openWrist = OpenWristInit();
