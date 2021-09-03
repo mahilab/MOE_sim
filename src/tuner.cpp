@@ -112,7 +112,7 @@ public:
 
         t += ImGui::GetIO().DeltaTime;
         ImGui::End();
-        ms_gains.write_data({kp0, kd0, kp1, kd1, kp3, kd3, k_hard, b_hard});
+        ms_gains.write_data({kp0, kd0, kp1, kd1, kp2, kd2, kp3, kd3, k_hard, b_hard});
         ms_refs.write_data({q_ref0, q_ref1, q_ref2, q_ref3});
     }
 

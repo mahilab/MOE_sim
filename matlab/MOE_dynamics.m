@@ -62,7 +62,7 @@ DH_table = [    0     0 0      q0;
 m = [m0;m1;m2;m3];
 Pc = {Pc0 Pc1 Pc2 Pc3};
 Ic = {Ic0 Ic1 Ic2 Ic3};
-g0 = [-g; 0; 0];
+g0 = [g; 0; 0];
 MVG = dynamics_newtonian(m,Pc,Ic,T_array,Qd,Qdd,g0);
 MVG = simplify(expand(MVG));
 

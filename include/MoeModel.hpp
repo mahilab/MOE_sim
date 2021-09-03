@@ -32,8 +32,8 @@ public:
     double q0dd, q1dd, q2dd, q3dd;
 
     // Hardstops
-    const double q0min = -91.5 * mahi::util::DEG2RAD;
-    const double q0max = +15.0 * mahi::util::DEG2RAD;
+    const double q0min = -75.0 * mahi::util::DEG2RAD;
+    const double q0max = +30.0 * mahi::util::DEG2RAD;
     const double q1min = -90.0 * mahi::util::DEG2RAD;
     const double q1max = +90.0 * mahi::util::DEG2RAD;
     const double q2min = -90.0 * mahi::util::DEG2RAD;

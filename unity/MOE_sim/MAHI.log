@@ -1,0 +1,116 @@
+2021-09-01 08:16:18.678 INFO  [35228] Logger 0 Initialized
+2021-09-01 08:16:18.828 WARN  [32084] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 08:16:18.828 WARN  [32084] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 08:16:18.828 WARN  [32084] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 08:16:18.828 WARN  [32084] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 08:16:35.733 INFO  [35228] Logger 0 Initialized
+2021-09-01 08:16:35.772 WARN  [144] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 08:16:35.772 WARN  [144] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 08:16:35.774 WARN  [144] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 08:16:35.774 WARN  [144] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 09:13:27.735 INFO  [35228] Logger 0 Initialized
+2021-09-01 09:13:27.883 WARN  [3624] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 09:13:27.883 WARN  [3624] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 09:13:27.883 WARN  [3624] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 09:13:27.883 WARN  [3624] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 09:17:29.745 INFO  [35228] Logger 0 Initialized
+2021-09-01 09:18:02.272 WARN  [23648] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 09:18:02.272 WARN  [23648] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 09:18:02.272 WARN  [23648] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 09:18:02.273 WARN  [23648] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 09:30:46.154 INFO  [35228] Logger 0 Initialized
+2021-09-01 09:50:04.309 INFO  [35228] Logger 0 Initialized
+2021-09-01 09:55:04.988 INFO  [35228] Logger 0 Initialized
+2021-09-01 09:55:39.052 INFO  [35228] Logger 0 Initialized
+2021-09-01 09:59:23.401 INFO  [35228] Logger 0 Initialized
+2021-09-01 09:59:23.455 WARN  [36704] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 09:59:23.455 WARN  [36704] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 09:59:23.455 WARN  [36704] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 09:59:23.455 WARN  [36704] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 10:03:48.703 INFO  [35228] Logger 0 Initialized
+2021-09-01 10:03:48.746 WARN  [11532] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 10:03:48.746 WARN  [11532] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 10:03:48.746 WARN  [11532] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 10:03:48.746 WARN  [11532] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 10:17:04.503 INFO  [35228] Logger 0 Initialized
+2021-09-01 10:19:20.221 INFO  [35228] Logger 0 Initialized
+2021-09-01 10:23:32.936 INFO  [35228] Logger 0 Initialized
+2021-09-01 10:23:32.989 WARN  [14380] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 10:23:32.989 WARN  [14380] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 10:23:32.989 WARN  [14380] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 10:23:32.989 WARN  [14380] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 11:58:22.904 INFO  [35228] Logger 0 Initialized
+2021-09-01 12:00:10.987 INFO  [35228] Logger 0 Initialized
+2021-09-01 12:00:11.050 WARN  [31240] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 12:00:11.051 WARN  [31240] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 12:00:11.051 WARN  [31240] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 12:00:11.051 WARN  [31240] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 12:03:33.220 INFO  [35228] Logger 0 Initialized
+2021-09-01 12:03:33.328 WARN  [28200] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-01 12:03:33.328 WARN  [28200] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-01 12:03:33.328 WARN  [28200] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-01 12:03:33.328 WARN  [28200] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-01 13:31:00.143 INFO  [24516] Logger 0 Initialized
+2021-09-02 08:02:14.181 INFO  [24516] Logger 0 Initialized
+2021-09-02 08:08:01.852 INFO  [24516] Logger 0 Initialized
+2021-09-02 08:08:52.682 INFO  [24516] Logger 0 Initialized
+2021-09-02 08:19:44.991 INFO  [24516] Logger 0 Initialized
+2021-09-02 09:23:28.001 INFO  [7720] Logger 0 Initialized
+2021-09-02 09:24:51.539 INFO  [7720] Logger 0 Initialized
+2021-09-02 09:24:51.616 WARN  [28768] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 09:24:51.616 WARN  [28768] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 09:24:51.616 WARN  [28768] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 09:24:51.616 WARN  [28768] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 11:04:22.550 INFO  [7720] Logger 0 Initialized
+2021-09-02 11:06:59.201 INFO  [7720] Logger 0 Initialized
+2021-09-02 11:08:17.034 INFO  [7720] Logger 0 Initialized
+2021-09-02 11:09:17.094 INFO  [7720] Logger 0 Initialized
+2021-09-02 11:11:05.786 INFO  [7720] Logger 0 Initialized
+2021-09-02 11:16:37.635 INFO  [7720] Logger 0 Initialized
+2021-09-02 12:13:49.296 INFO  [7720] Logger 0 Initialized
+2021-09-02 12:15:18.480 INFO  [7720] Logger 0 Initialized
+2021-09-02 12:15:45.967 INFO  [7720] Logger 0 Initialized
+2021-09-02 12:18:21.168 INFO  [7720] Logger 0 Initialized
+2021-09-02 12:18:21.238 WARN  [15844] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 12:18:21.238 WARN  [15844] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 12:18:21.238 WARN  [15844] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 12:18:21.238 WARN  [15844] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 12:22:05.135 INFO  [7720] Logger 0 Initialized
+2021-09-02 12:22:05.203 WARN  [12684] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 12:22:05.203 WARN  [12684] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 12:22:05.204 WARN  [12684] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 12:22:05.204 WARN  [12684] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 12:24:03.648 INFO  [7720] Logger 0 Initialized
+2021-09-02 13:27:44.310 INFO  [7720] Logger 0 Initialized
+2021-09-02 13:27:44.422 WARN  [26064] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 13:27:44.422 WARN  [26064] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 13:27:44.422 WARN  [26064] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 13:27:44.422 WARN  [26064] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 13:28:35.485 INFO  [7720] Logger 0 Initialized
+2021-09-02 13:28:35.542 WARN  [7232] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 13:28:35.542 WARN  [7232] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 13:28:35.542 WARN  [7232] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 13:28:35.542 WARN  [7232] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 13:29:59.847 INFO  [7720] Logger 0 Initialized
+2021-09-02 13:29:59.897 WARN  [2688] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 13:29:59.897 WARN  [2688] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 13:29:59.897 WARN  [2688] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 13:29:59.897 WARN  [2688] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 13:30:23.019 WARN  [32172] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 13:30:23.019 WARN  [32172] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 13:30:23.019 WARN  [32172] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 13:30:23.019 WARN  [32172] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 13:34:58.179 WARN  [19124] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 13:34:58.180 WARN  [19124] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 13:34:58.180 WARN  [19124] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 13:34:58.180 WARN  [19124] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 13:35:48.327 WARN  [26596] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 13:35:48.327 WARN  [26596] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 13:35:48.327 WARN  [26596] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 13:35:48.327 WARN  [26596] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2021-09-02 13:36:49.637 INFO  [7720] Logger 0 Initialized
+2021-09-02 13:36:49.702 WARN  [26160] Opened an existing mutex when trying to create NamedMutex gains_mutex
+2021-09-02 13:36:49.702 WARN  [26160] Opened an existing mutex when trying to create NamedMutex refs_mutex
+2021-09-02 13:36:49.702 WARN  [26160] Opened an existing mutex when trying to create NamedMutex times_mutex
+2021-09-02 13:46:23.516 INFO  [33892] Logger 0 Initialized
+2021-09-02 14:20:18.008 INFO  [33892] Logger 0 Initialized
