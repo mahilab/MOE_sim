@@ -23,8 +23,8 @@ public class MOE_Script : MonoBehaviour {
 
     double[] qs = new double[4];
 
-    const string import_module = "tuner_moe";
-    // const string import_module = "virtual_moe";
+    //const string import_module = "tuner_moe";
+     const string import_module = "virtual_moe";
 
     static IntPtr nativeLibraryPtr;
  

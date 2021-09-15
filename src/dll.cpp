@@ -30,8 +30,8 @@ void simulation()
     double q_ref3 = 0.0;
     double q0, q1, q2, q3;
     double tau0, tau1, tau2, tau3;
-    double k_hard0 = 200;
-    double b_hard0 = 10;
+    double k_hard0 = 100;
+    double b_hard0 = 1.0;
     double threadpooling = true;
     Timer timer(hertz(1000), Timer::Hybrid);
     Time t;

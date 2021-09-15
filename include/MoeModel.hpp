@@ -32,23 +32,23 @@ public:
     double q0dd, q1dd, q2dd, q3dd;
 
     // Hardstops
-    const double q0min = -75.0 * mahi::util::DEG2RAD;
-    const double q0max = +30.0 * mahi::util::DEG2RAD;
-    const double q1min = -90.0 * mahi::util::DEG2RAD;
-    const double q1max = +90.0 * mahi::util::DEG2RAD;
-    const double q2min = -90.0 * mahi::util::DEG2RAD;
-    const double q2max = +90.0 * mahi::util::DEG2RAD;
-    const double q3min = -60.0 * mahi::util::DEG2RAD;
-    const double q3max = +15.0 * mahi::util::DEG2RAD;
+    const double q0min = -73.6285 * mahi::util::DEG2RAD;
+    const double q0max = +28.6283 * mahi::util::DEG2RAD;
+    const double q1min = -89.8249 * mahi::util::DEG2RAD;
+    const double q1max = +89.8249 * mahi::util::DEG2RAD;
+    const double q2min = -63.2490 * mahi::util::DEG2RAD;
+    const double q2max = +68.2490 * mahi::util::DEG2RAD;
+    const double q3min = -72.9322 * mahi::util::DEG2RAD;
+    const double q3max = +05.0000 * mahi::util::DEG2RAD;
 
-    double Khard0 = 20000; // hardstop stiffness
-    double Bhard0 = 100;  // hardstop damping
-    double Khard1 = 2000; // hardstop stiffness
-    double Bhard1 = 100;  // hardstop damping
-    double Khard2 = 2000; // hardstop stiffness
-    double Bhard2 = 100;  // hardstop damping
-    double Khard3 = 2000; // hardstop stiffness
-    double Bhard3 = 100;  // hardstop damping
+    double Khard0 = 100; // hardstop stiffness
+    double Bhard0 = 1.0;  // hardstop damping
+    double Khard1 = 100; // hardstop stiffness
+    double Bhard1 = 1.0;  // hardstop damping
+    double Khard2 = 100; // hardstop stiffness
+    double Bhard2 = 1.0;  // hardstop damping
+    double Khard3 = 100; // hardstop stiffness
+    double Bhard3 = 1.0;  // hardstop damping
 
     double mat_calc_time = 0;
     double setup_time = 0;
@@ -71,16 +71,16 @@ public:
     const double eta3 = 0.23*0.0254;
 
     // Damping Coefficients [Nm*s/rad]
-    const double b0 = 0.5 * 0.0252;  
-    const double b1 = 0.5 * 0.0019;  
-    const double b2 = 0.5 * 0.0029; 
-    const double b3 = 0.5 * 0.0019;  
+    // const double b0 = 0.5 * 0.0252;  
+    // const double b1 = 0.5 * 0.0019;  
+    // const double b2 = 0.5 * 0.0029; 
+    // const double b3 = 0.5 * 0.0019;  
 
     // Kinetic Friction [Nm]
-    const double fk0 = 0.5 * 0.1891;
-    const double fk1 = 0.5 * 0.0541;
-    const double fk2 = 0.5 * 0.1339;
-    const double fk3 = 0.5 * 0.1339;
+    // const double fk0 = 0.5 * 0.1891;
+    // const double fk1 = 0.5 * 0.0541;
+    // const double fk2 = 0.5 * 0.1339;
+    // const double fk3 = 0.5 * 0.1339;
 
     // Gravity Constant [m/s^2]
     const double g = 9.80665;

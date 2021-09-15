@@ -74,7 +74,7 @@ namespace ConsoleApp1
                 //swModelExt.SelectByID2("OW_subasm1-1", "COMPONENT", 0, 0, 0, true, 0, null, 0);
 
                 MassProperty2 MyMassProp = (MassProperty2)swModelExt.CreateMassProperty2();
-                var currCoordSystem = swModelExt.GetCoordinateSystemTransformByName("CS" + joint_num);
+                var currCoordSystem = swModelExt.GetCoordinateSystemTransformByName("CS_" + joint_num);
                 MyMassProp.SetCoordinateSystem(currCoordSystem);
                 MyMassProp.Recalculate();
                 double[] com = (double[])MyMassProp.CenterOfMass;

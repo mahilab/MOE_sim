@@ -57,13 +57,13 @@ void MoeModel::update(Time t)
     Tau[2] = tau2 + hardstop_torque(q2,q2d,q2min,q2max,Khard2,Bhard2);
     Tau[3] = tau3 + hardstop_torque(q3,q3d,q3min,q3max,Khard3,Bhard3);
 
-    constexpr double B_coef[4] = {0.5, 0.1, 0.1, 0.1};
-    constexpr double Fk_coef[4] = {0.1, 0.01, 0.01, 0.01};
+    constexpr double  B_coef[4] = {0.0252, 0.0019, 0.0029, 0.0019};
+    constexpr double Fk_coef[4] = {   0.2, 0.1891, 0.0541, 0.1339};
 
-    B[0] = B_coef[0]*q0d*10.0;
-    B[1] = B_coef[1]*q1d*10.0;
-    B[2] = B_coef[2]*q2d*10.0;
-    B[3] = B_coef[3]*q3d*10.0;
+    B[0] = B_coef[0]*q0d*1.0;
+    B[1] = B_coef[1]*q1d*1.0;
+    B[2] = B_coef[2]*q2d*1.0;
+    B[3] = B_coef[3]*q3d*1.0;
 
     Fk[0] = Fk_coef[0]*std::tanh(q0d*10);
     Fk[1] = Fk_coef[1]*std::tanh(q1d*10);
