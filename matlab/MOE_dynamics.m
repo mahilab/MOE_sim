@@ -51,10 +51,12 @@ Ic3 = [Icxx3 -Icxy3 -Icxz3;
     -Icxz3 -Icyz3 Iczz3];
 
 %% Forward Kinematics
-DH_table = [    0     0 0      q0;
-            -0.15 -pi/2 0 q1-pi/2;
-                0  pi/2 0      q2;
-                0  pi/2 0      q3];
+dist = -0.24269798;
+
+DH_table = [    0     0    0      q0;
+                0 -pi/2 dist q1+pi/2;
+                0  pi/2    0 q2+pi/2;
+                0 -pi/2    0      q3];
 
 [~,T_array] = dh2tf(DH_table);
 
@@ -62,7 +64,7 @@ DH_table = [    0     0 0      q0;
 m = [m0;m1;m2;m3];
 Pc = {Pc0 Pc1 Pc2 Pc3};
 Ic = {Ic0 Ic1 Ic2 Ic3};
-g0 = [g; 0; 0];
+g0 = [-g; 0; 0];
 MVG = dynamics_newtonian(m,Pc,Ic,T_array,Qd,Qdd,g0);
 MVG = simplify(expand(MVG));
 
@@ -76,6 +78,7 @@ end
 ccode(M,'File','Equations/M.txt')
 ccode(V,'File','Equations/V.txt')
 ccode(G,'File','Equations/G.txt')
+
 %% Get Equation of Motion
 EOM = Tau == M*Qdd + Jm.*Eta.^2.*Qdd + V + G + B.*Qd + Fk.*tanh(10 * Qd);
 
@@ -172,3 +175,13 @@ RHS1 = simplify(expand(solve(EOM_num(3) == 0, q1dd)));
 LHS2 = (solve(LHS1==MHS1,q2dd));
 RHS2 = (solve(MHS1==RHS1,q2dd));
 q3dd_solved = solve(LHS2==RHS2,q3dd);
+%%
+test = M*Qdd + V + G;
+Theta = [Pcx1^2,m0,m1,m2,m3,Pcx0,Pcy0,Pcz0,Icxx0,Icxy0,Icxz0,Icyy0,Icyz0,Iczz0,Pcx1,Pcy1,Pcz1,Icxx1,Icxy1,Icxz1,Icyy1,Icyz1,Iczz1,Pcx2,Pcy2,Pcz2,Icxx2,Icxy2,Icxz2,Icyy2,Icyz2,Iczz2,Pcx3,Pcy3,Pcz3,Icxx3,Icxy3,Icxz3,Icyy3,Icyz3,Iczz3];
+for i = 1:4
+    for j = 1:length(Theta)
+        Theta(j)
+        [c,t] = coeffs(test(i),Theta(j))
+        pause
+    end
+end

@@ -38,8 +38,8 @@ public:
     const double q1max = +89.8249 * mahi::util::DEG2RAD;
     const double q2min = -63.2490 * mahi::util::DEG2RAD;
     const double q2max = +68.2490 * mahi::util::DEG2RAD;
-    const double q3min = -72.9322 * mahi::util::DEG2RAD;
-    const double q3max = +05.0000 * mahi::util::DEG2RAD;
+    const double q3min = -42.9322 * mahi::util::DEG2RAD;
+    const double q3max = +35.0000 * mahi::util::DEG2RAD;
 
     double Khard0 = 100; // hardstop stiffness
     double Bhard0 = 1.0;  // hardstop damping

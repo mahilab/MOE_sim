@@ -48,7 +48,7 @@ void MoeModel::update(Time t)
 
     Clock CompTime;
 
-    // MatrixXd M = get_M(qs);
+    MatrixXd M = get_M(qs);
     MatrixXd V = get_V(qs);
     VectorXd G = get_G(qs);
 
@@ -57,8 +57,8 @@ void MoeModel::update(Time t)
     Tau[2] = tau2 + hardstop_torque(q2,q2d,q2min,q2max,Khard2,Bhard2);
     Tau[3] = tau3 + hardstop_torque(q3,q3d,q3min,q3max,Khard3,Bhard3);
 
-    constexpr double  B_coef[4] = {0.0252, 0.0019, 0.0029, 0.0019};
-    constexpr double Fk_coef[4] = {   0.2, 0.1891, 0.0541, 0.1339};
+    constexpr double  B_coef[4] = {0.1215, 0.0252, 0.0019, 0.0029};
+    constexpr double Fk_coef[4] = {   0.5, 0.1891, 0.0541, 0.1339};
 
     B[0] = B_coef[0]*q0d*1.0;
     B[1] = B_coef[1]*q1d*1.0;
@@ -70,9 +70,9 @@ void MoeModel::update(Time t)
     Fk[2] = Fk_coef[2]*std::tanh(q2d*10);
     Fk[3] = Fk_coef[3]*std::tanh(q3d*10);
 
-    // A = M;
+    A = M;
     b = Tau - V*qdot - G - B - Fk;
-    x = get_nathanisdumb(qs)*b;
+    x = A.inverse()*b;
 
     q0dd = x[0];
     q1dd = x[1];

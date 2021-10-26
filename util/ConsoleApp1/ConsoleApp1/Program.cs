@@ -76,6 +76,7 @@ namespace ConsoleApp1
                 MassProperty2 MyMassProp = (MassProperty2)swModelExt.CreateMassProperty2();
                 var currCoordSystem = swModelExt.GetCoordinateSystemTransformByName("CS_" + joint_num);
                 MyMassProp.SetCoordinateSystem(currCoordSystem);
+				MyMassProp.IncludeHiddenBodiesOrComponents = false;
                 MyMassProp.Recalculate();
                 double[] com = (double[])MyMassProp.CenterOfMass;
                 double[] moi = (double[])MyMassProp.GetMomentOfInertia(1);

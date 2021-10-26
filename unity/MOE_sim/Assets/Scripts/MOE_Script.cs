@@ -23,7 +23,7 @@ public class MOE_Script : MonoBehaviour {
 
     double[] qs = new double[4];
 
-    //const string import_module = "tuner_moe";
+    // const string import_module = "tuner_moe";
      const string import_module = "virtual_moe";
 
     static IntPtr nativeLibraryPtr;
@@ -65,7 +65,7 @@ public class MOE_Script : MonoBehaviour {
         J0.transform.localEulerAngles   = new Vector3(0, 0, -q0*Mathf.Rad2Deg);
         J1.transform.localEulerAngles   = new Vector3(-q1*Mathf.Rad2Deg, 0, 0);
         J2.transform.localEulerAngles   = new Vector3(0, -q2*Mathf.Rad2Deg, 0);
-        J3.transform.localEulerAngles   = new Vector3(0, 0, -q3*Mathf.Rad2Deg);
+        J3.transform.localEulerAngles   = new Vector3(0, 0, -q3*Mathf.Rad2Deg + 30);
     
         if (Input.GetKeyDown(KeyCode.R))
         {
