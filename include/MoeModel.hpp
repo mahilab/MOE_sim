@@ -39,7 +39,7 @@ public:
     const double q2min = -63.2490 * mahi::util::DEG2RAD;
     const double q2max = +68.2490 * mahi::util::DEG2RAD;
     const double q3min = -42.9322 * mahi::util::DEG2RAD;
-    const double q3max = +35.0000 * mahi::util::DEG2RAD;
+    const double q3max = +30.9078 * mahi::util::DEG2RAD;
 
     double Khard0 = 100; // hardstop stiffness
     double Bhard0 = 1.0;  // hardstop damping
@@ -65,22 +65,16 @@ public:
     const double tau3_mot_max  = 2.560;
 
     // Transmission Rations [rad/m]
-    const double eta0 = 0.23*0.0254;
-    const double eta1 = 0.23*0.0254;
-    const double eta2 = 0.23*0.0254;
-    const double eta3 = 0.23*0.0254;
+    const double eta0 = 0.4200/4.50;
+    const double eta1 = 0.4706/8.75;
+    const double eta2 = 0.4735/9.00;
+    const double eta3 = 0.2210/6.00;
 
-    // Damping Coefficients [Nm*s/rad]
-    // const double b0 = 0.5 * 0.0252;  
-    // const double b1 = 0.5 * 0.0019;  
-    // const double b2 = 0.5 * 0.0029; 
-    // const double b3 = 0.5 * 0.0019;  
-
-    // Kinetic Friction [Nm]
-    // const double fk0 = 0.5 * 0.1891;
-    // const double fk1 = 0.5 * 0.0541;
-    // const double fk2 = 0.5 * 0.1339;
-    // const double fk3 = 0.5 * 0.1339;
+    // Motor rotor inertias [Kg*m^2]
+    const double Jm0 = 1340e-7;
+    const double Jm1 = 137e-7;
+    const double Jm2 = 137e-7;
+    const double Jm3 = 34.7e-7;
 
     // Gravity Constant [m/s^2]
     const double g = 9.80665;
@@ -101,6 +95,7 @@ private:
     Eigen::VectorXd B;
     Eigen::VectorXd Fk;
 
+    Eigen::MatrixXd Jm;
     Eigen::MatrixXd A;
     Eigen::VectorXd b;
     Eigen::VectorXd x;

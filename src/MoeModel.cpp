@@ -28,6 +28,7 @@ MoeModel::MoeModel() :
     Tau(4),
     B(4),
     Fk(4),
+    Jm(4,4),
     A(4,4),
     b(4),
     x(4)
@@ -57,8 +58,12 @@ void MoeModel::update(Time t)
     Tau[2] = tau2 + hardstop_torque(q2,q2d,q2min,q2max,Khard2,Bhard2);
     Tau[3] = tau3 + hardstop_torque(q3,q3d,q3min,q3max,Khard3,Bhard3);
 
-    constexpr double  B_coef[4] = {0.1215, 0.0252, 0.0019, 0.0029};
-    constexpr double Fk_coef[4] = {   0.5, 0.1891, 0.0541, 0.1339};
+    // constexpr double  B_coef[4] = {0.0840, 0.0252, 0.0019, 0.0029};
+    // constexpr double Fk_coef[4] = {0.2186, 0.1891, 0.0541, 0.1339};
+    
+    // 
+    constexpr double  B_coef[4] = {0.0393, 0.0691, 0.0068, 0.0025};
+    constexpr double Fk_coef[4] = {0.1838, 0.1572, 0.0996, 0.1685};
 
     B[0] = B_coef[0]*q0d*1.0;
     B[1] = B_coef[1]*q1d*1.0;
@@ -70,7 +75,14 @@ void MoeModel::update(Time t)
     Fk[2] = Fk_coef[2]*std::tanh(q2d*10);
     Fk[3] = Fk_coef[3]*std::tanh(q3d*10);
 
-    A = M;
+    Jm = MatrixXd::Zero(4,4);
+
+    Jm(0,0) = Jm0/eta0/eta0;
+    Jm(1,1) = Jm1/eta1/eta1;
+    Jm(2,2) = Jm2/eta2/eta2;
+    Jm(3,3) = Jm3/eta3/eta3;
+
+    A = M + Jm;
     b = Tau - V*qdot - G - B - Fk;
     x = A.inverse()*b;
 

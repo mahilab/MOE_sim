@@ -75,8 +75,8 @@ public:
             ImGui::DragDouble("Kd Wrist FE",&kd2,1,0,10);
             ImGui::DragDouble("Kp Wrist RU",&kp3,1,0,50);
             ImGui::DragDouble("Kd Wrist RU",&kd3,1,0,10);
-            ImGui::DragDouble("Khard",&k_hard,1,0,20000);
-            ImGui::DragDouble("Bhard",&b_hard,1,0,2000);
+            // ImGui::DragDouble("Khard",&k_hard,1,0,20000);
+            // ImGui::DragDouble("Bhard",&b_hard,1,0,2000);
         ImGui::EndGroup();
         ImGui::SameLine();
         ImGui::BeginGroup();
@@ -86,27 +86,27 @@ public:
             ImGui::DragDouble("Wrist RU ref (rad)",&q_ref3,0.005f,-PI/2-0.5,PI/6+0.5,"%.4f");   
             ImGui::DragDouble("Elbow pos (rad)",&q0,0.0001f,0.03,0.15,"%.4f");
             ImGui::DragDouble("Forearm pos (rad)",&q1,0.0001f,0.03,0.15,"%.4f");    
-            ImGui::DragDouble("Wrist FE pos (m)",&q2,0.0001f,0.03,0.15,"%.4f");
-            ImGui::DragDouble("Wrist RU pos (m)",&q3,0.0001f,0.03,0.15,"%.4f");
+            ImGui::DragDouble("Wrist FE pos (rad)",&q2,0.0001f,0.03,0.15,"%.4f");
+            ImGui::DragDouble("Wrist RU pos (rad)",&q3,0.0001f,0.03,0.15,"%.4f");
             ImGui::PopItemWidth();
         ImGui::EndGroup();
         int mean_calc_time = int(mean(calc_times_1s.get_vector()));
-        ImGui::InputInt("Mean Calc Time",&mean_calc_time);
+        ImGui::InputInt("Mean Dynamics Calc Time",&mean_calc_time);
 
         ImPlot::SetNextPlotLimits(t-10, t, 0, 1500, ImGuiCond_Always);
-        if(ImPlot::BeginPlot("##Sim Time", "Time (s)", "Sim Rate (us)", {-1,300}, 0, rt_axis, rt_axis)){
+        if(ImPlot::BeginPlot("##Sim Time", "Time (s)", "Sim Rate (us)", {-1,200}, 0, rt_axis, rt_axis)){
             ImPlot::PlotLine("Sim Loop Time", &sim_rate.Data[0].x, &sim_rate.Data[0].y, sim_rate.Data.size(), sim_rate.Offset, 2 * sizeof(float));
             ImPlot::PlotLine("Desired Sim Loop Time", &des_rate.Data[0].x, &des_rate.Data[0].y, des_rate.Data.size(), des_rate.Offset, 2 * sizeof(float));
-            ImPlot::PlotLine("Comp Time", &compTime.Data[0].x, &compTime.Data[0].y, compTime.Data.size(), compTime.Offset, 2 * sizeof(float));
+            ImPlot::PlotLine("Dynamics Calc Time", &compTime.Data[0].x, &compTime.Data[0].y, compTime.Data.size(), compTime.Offset, 2 * sizeof(float));
             ImPlot::EndPlot();
         }
 
-        ImPlot::SetNextPlotLimits(t-10, t, -10, 10, ImGuiCond_Always);
-        if(ImPlot::BeginPlot("##Forces", "Time (s)", "Force (N)", {-1,300}, 0, rt_axis, rt_axis)){
-            ImPlot::PlotLine("Force 0", &tau0.Data[0].x, &tau0.Data[0].y, tau0.Data.size(), tau1.Offset, 2 * sizeof(float));
-            ImPlot::PlotLine("Force 1", &tau1.Data[0].x, &tau1.Data[0].y, tau1.Data.size(), tau1.Offset, 2 * sizeof(float));
-            ImPlot::PlotLine("Force 2", &tau2.Data[0].x, &tau2.Data[0].y, tau2.Data.size(), tau2.Offset, 2 * sizeof(float));
-            ImPlot::PlotLine("Force 3", &tau3.Data[0].x, &tau3.Data[0].y, tau3.Data.size(), tau3.Offset, 2 * sizeof(float));
+        ImPlot::SetNextPlotLimits(t-10, t, -3, 3, ImGuiCond_Always);
+        if(ImPlot::BeginPlot("##Torques", "Time (s)", "Torque (Nm)", {-1,200}, 0, rt_axis, rt_axis)){
+            ImPlot::PlotLine("Torque 0", &tau0.Data[0].x, &tau0.Data[0].y, tau0.Data.size(), tau1.Offset, 2 * sizeof(float));
+            ImPlot::PlotLine("Torque 1", &tau1.Data[0].x, &tau1.Data[0].y, tau1.Data.size(), tau1.Offset, 2 * sizeof(float));
+            ImPlot::PlotLine("Torque 2", &tau2.Data[0].x, &tau2.Data[0].y, tau2.Data.size(), tau2.Offset, 2 * sizeof(float));
+            ImPlot::PlotLine("Torque 3", &tau3.Data[0].x, &tau3.Data[0].y, tau3.Data.size(), tau3.Offset, 2 * sizeof(float));
             ImPlot::EndPlot();
         }
 
