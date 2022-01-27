@@ -46,8 +46,8 @@ namespace ConsoleApp1
 
             List<List<string>> dof_component_names = new List<List<string>>() {new List<string>(){"exo_forearm-1",  "OW_subasm1-1"},
                                                                                new List<string>(){"OWL_subasm2-1", "OWL_subasm3-1",  "OW_subasm5-1"},
-                                                                               new List<string>(){ "OW_subasm6-1", "OWL_subasm7-1", "OWL_subasm8-1"},
-                                                                               new List<string>(){"OW_subasm10-1", "OW_subasm11-1", "OW_subasm12-1"}};
+                                                                               new List<string>(){ "OW_subasm6-1", "OWL_subasm7-1", "OWL_subasm8-1", "OW_subasm10-1"},
+                                                                               new List<string>(){"OW_subasm11-1", "OW_subasm12-1"}};
 
             //int joint_num = 1;
 
@@ -130,7 +130,7 @@ namespace ConsoleApp1
 
             
 
-            swApp.ExitApp();
+            //swApp.ExitApp();
             swApp = null;
         }
 

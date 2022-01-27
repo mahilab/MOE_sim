@@ -65,7 +65,7 @@ public:
     const double tau3_mot_max  = 2.560;
 
     // Transmission Rations [rad/m]
-    const double eta0 = 0.4200/4.50;
+    const double eta0 = 0.4070/4.50;
     const double eta1 = 0.4706/8.75;
     const double eta2 = 0.4735/9.00;
     const double eta3 = 0.2210/6.00;

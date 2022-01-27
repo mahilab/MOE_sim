@@ -51,7 +51,8 @@ Ic3 = [Icxx3 -Icxy3 -Icxz3;
     -Icxz3 -Icyz3 Iczz3];
 
 %% Forward Kinematics
-dist = -0.24269798;
+% dist = -0.24269798;
+dist = -0.28024836;
 
 DH_table = [    0     0    0      q0;
                 0 -pi/2 dist q1+pi/2;
