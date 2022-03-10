@@ -32,7 +32,7 @@ for filename in filenames:
     content = string.replace(content,"[","(")
     content = string.replace(content,"]",")")
     
-    write_file = open("C:/Git/mahi-casadi/include/Mahi/Casadi/" + mat_name + ".hpp","w")
+    write_file = open("C:/Git/mahi-mpc/include/Mahi/Casadi/" + mat_name + ".hpp","w")
     write_file.writelines(fileheader)
     if mat_name != "G": 
         write_file.write("SX get_" + mat_name + "(const SX& qs){\n")
