@@ -10,16 +10,11 @@ FetchContent_MakeAvailable(moe)
 FetchContent_Declare(mahi-gui GIT_REPOSITORY https://github.com/mahilab/mahi-gui.git) 
 FetchContent_MakeAvailable(mahi-gui)
 
-include_directories(include)
-
 add_executable(test src/test.cpp)
 target_link_libraries(test moe)
 
-add_executable(tuner_gui src/tuner.cpp)
-target_link_libraries(tuner_gui moe mahi::gui)
-
 # virtual - working with the MOE c++ library
-add_library(virtual_moe SHARED include/MoeModel.hpp src/MoeModel.cpp src/dll_virtual.cpp)
+add_library(virtual_moe SHARED src/dll_virtual.cpp)
 target_link_libraries(virtual_moe moe)
 
 add_custom_command(TARGET virtual_moe POST_BUILD

@@ -1,5 +1,5 @@
-#include "MoeModel.hpp"
-#include <Mahi/MOE.hpp>
+// #include "MoeModel.hpp"
+#include <MOE/MOE.hpp>
 #include <Mahi/Com.hpp>
 #include <Mahi/Util.hpp>
 #include <Mahi/Robo.hpp>
@@ -12,23 +12,42 @@
 
 #define EXPORT extern "C" __declspec(dllexport)
 
+// private functions that arent available from unity
+
+
+
 using namespace mahi::com;
-using namespace mahi::util;
+// using namespace mahi::util;
 using namespace mahi::robo;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
 moe::MoeDynamicModel model;
-moe::MoeParams moe_params;
+moe::MoeParameters moe_params;
 std::thread thread;
 std::mutex mtx;
-std::atomic_bool stop;
+std::atomic_bool sim_stop;
 
 MatrixXd A, M;
 VectorXd b, V, G, Tau, Friction;
 
 VectorXd x, xd;
+
+// compute hardstop torque if robot is in an unavailable range
+inline double hardstop_torque(moe::MoeDynamicModel moe_model, int joint_id) {
+    static const double hs_K = 100;
+    static const double hs_B = 0.1;
+
+    double qmin = moe_params.pos_limits_min_[joint_id];
+    double qmax = moe_params.pos_limits_max_[joint_id];
+    double q = moe_model.q[joint_id];
+    double qd = moe_model.qd[joint_id];
+
+    if      (q < qmin) return hs_K * (qmin - q) - hs_B * qd;
+    else if (q > qmax) return hs_K * (qmax - q) - hs_B * qd;
+    else               return 0;
+}
 
 void simulation()
 {
@@ -53,20 +72,23 @@ void simulation()
     MelShare ms_posvel_3("ms_posvel_3");
     double q0, q1, q2, q3;
     double q0d, q1d, q2d, q3d;
+    double q0dd, q1dd, q2dd, q3dd;
     double tau0, tau1, tau2, tau3;
+    mahi::util::Integrator q0dd_q0d, q1dd_q1d, q2dd_q2d, q3dd_q3d;
+    mahi::util::Integrator q0d_q0, q1d_q1, q2d_q2, q3d_q3;
     std::vector<double> tau0_data, tau1_data, tau2_data, tau3_data;
-    Timer timer(hertz(1000), Timer::Hybrid);
-    Time t;
-    Time sim_time = 0_ms;
-    enable_realtime();
-    while (!stop)
+    mahi::util::Timer timer(mahi::util::hertz(1000), mahi::util::Timer::Hybrid);
+    mahi::util::Time t;
+    mahi::util::Time sim_time = mahi::util::milliseconds(0);
+    mahi::util::enable_realtime();
+    while (!sim_stop)
     {
         if(!started){
             if(!ms_torque_0.read_data().empty()){
                 started = true;
                 std::lock_guard<std::mutex> lock(mtx);
-                model.reset();
-                timer.stop();
+                model.update(std::vector<double>(4, 0), std::vector<double>(4, 0));
+                timer.restart();
             }
         }
 
@@ -82,44 +104,54 @@ void simulation()
 
         {
             std::lock_guard<std::mutex> lock(mtx);
-            model.set_torques(tau0,tau1,tau2,tau3);
+            // model.set_torques(tau0,tau1,tau2,tau3);
             if(started){
-                Tau[0] = tau0 + hardstop_torque(moe_model,0);
-                Tau[1] = tau1 + hardstop_torque(moe_model,1);
-                Tau[2] = tau2 + hardstop_torque(moe_model,2);
-                Tau[3] = tau3 + hardstop_torque(moe_model,3);
+                Tau[0] = tau0 + hardstop_torque(model,0);
+                Tau[1] = tau1 + hardstop_torque(model,1);
+                Tau[2] = tau2 + hardstop_torque(model,2);
+                Tau[3] = tau3 + hardstop_torque(model,3);
 
                 M = model.get_M();
                 V = model.get_V();
                 G = model.get_G();
                 Friction = model.get_Friction();
                 auto A = M;
-                auto B = Tau - V*qdot - G - B - Friction;
+                auto b = Tau - V - G - Friction;
                 x = A.inverse()*b;
             }
-            q0 = model.q[0];
-            q1 = model.q[1];
-            q2 = model.q[2];
-            q3 = model.q[3];
-            q0d = model.qd[0];
-            q1d = model.qd[1];
-            q2d = model.qd[2];
-            q3d = model.qd[3];
-            
+            q0dd = x[0];
+            q1dd = x[1];
+            q2dd = x[2];
+            q3dd = x[3];
+
+            // integrate acclerations to find velocities
+            q0d = q0dd_q0d.update(q0dd, t);
+            q1d = q1dd_q1d.update(q1dd, t);
+            q2d = q2dd_q2d.update(q2dd, t);
+            q3d = q3dd_q3d.update(q3dd, t);
+
+            // integrate velocities to find positions
+            q0 = q0d_q0.update(q0d, t);
+            q1 = q1d_q1.update(q1d, t);
+            q2 = q2d_q2.update(q2d, t);
+            q3 = q3d_q3.update(q3d, t);
+
+            model.update({q0, q1, q2, q3}, {q0d, q1d, q2d, q3d});
         }
-        sim_time += 1_ms;
+
+        sim_time += mahi::util::milliseconds(1);
         ms_posvel_0.write_data({q0,q0d});
         ms_posvel_1.write_data({q1,q1d});
         ms_posvel_2.write_data({q2,q2d});
         ms_posvel_3.write_data({q3,q3d});
         t = timer.wait();
     }
-    disable_realtime();
+    mahi::util::disable_realtime();
 }
 
 EXPORT void stop()
 {
-    stop = true;
+    sim_stop = true;
     if (thread.joinable())
         thread.join();
 }
@@ -128,32 +160,16 @@ EXPORT void start()
 {
     stop();
     model.update({0,0,0,0},{0,0,0,0});
-    stop = false;
+    sim_stop = false;
     thread = std::thread(simulation);
 }
 
 EXPORT void get_positions(double *positions)
 {
     std::lock_guard<std::mutex> lock(mtx);
-    positions[0] = model.q0;
-    positions[1] = model.q1;
-    positions[2] = model.q2;
-    positions[3] = model.q3;
+    positions[0] = model.q[0];
+    positions[1] = model.q[1];
+    positions[2] = model.q[2];
+    positions[3] = model.q[3];
 }
 
-// private functions that arent available from unity
-
-// compute hardstop torque if robot is in an unavailable range
-inline double hardstop_torque(MoeDynamicModel moe_model, int joint_id) {
-    static const double hs_K = 100;
-    static const double hs_B = 0.1;
-
-    double qmin = moe_params.pos_limits_min_[joint_id];
-    double qmax = moe_params.pos_limits_max_[joint_id];
-    double q = moe_model.q[joint_id];
-    double qd = moe_model.qd[joint_id];
-
-    if      (q < qmin) return hs_K * (qmin - q) - hs_B * qd;
-    else if (q > qmax) return hs_K * (qmax - q) - hs_B * qd;
-    else               return 0;
-}
