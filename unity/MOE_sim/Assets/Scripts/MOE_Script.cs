@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 using fts;
 
@@ -21,9 +22,23 @@ public class MOE_Script : MonoBehaviour {
     public GameObject J2;
     public GameObject J3;
 
+    [Header("Sliders")]
+    public GameObject ShoulderSlider;
+    public GameObject CounterweightSlider;
+    public GameObject ForearmSlider;
+
+    int shoulder_pos = 0;
+    int counterweight_pos = 7;
+    int forearm_pos = 7;
+
+    int shoulder_pos_last = 0;
+    int counterweight_pos_last = 7;
+    int forearm_pos_last = 7;
+
     double[] qs = new double[4];
 
-    // const string import_module = "tuner_moe";
+    int[] robot_params = new int[3];
+
      const string import_module = "virtual_moe";
 
     static IntPtr nativeLibraryPtr;
@@ -32,6 +47,7 @@ public class MOE_Script : MonoBehaviour {
     delegate void stop();
 
     delegate void get_positions(double[] positions);
+    delegate void update_mass_props(int forearm_pos, int counterweight_pos, double shoulder_pos);
 
     // bool printed = false;
 
@@ -48,9 +64,10 @@ public class MOE_Script : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        // var coating_mat = Resources.Load("Materials/coating.mat", typeof(Material)) as Material;
-        // coating_mat.SetColor("_Color",Color.red);
-        Native.Invoke<start>(nativeLibraryPtr);
+        robot_params = new int[] {shoulder_pos, counterweight_pos, forearm_pos}; 
+        Debug.Log("robot_params: " + robot_params[0] + " " + robot_params[1] + " " + robot_params[2]);
+        Native.Invoke<update_mass_props>(nativeLibraryPtr, forearm_pos, counterweight_pos, shoulder_pos);
+        Native.Invoke<start>(nativeLibraryPtr);        
 	}
 
 	// Update is called once per frame
@@ -69,15 +86,34 @@ public class MOE_Script : MonoBehaviour {
     
         if (Input.GetKeyDown(KeyCode.R))
         {
-            // Dll.stop();
-            // Dll.start();
             Native.Invoke<stop>(nativeLibraryPtr);
             Native.Invoke<start>(nativeLibraryPtr);
         }
+
+        
+
+        shoulder_pos = UpdateSlider(ShoulderSlider, "Shoulder Pos: ");
+        counterweight_pos = UpdateSlider(CounterweightSlider, "Counterweight Pos: ");
+        forearm_pos = UpdateSlider(ForearmSlider, "Forearm Pos: ");
+
+        if (Input.GetMouseButtonUp(0)){
+            if ((shoulder_pos      != shoulder_pos_last)      ||
+                (counterweight_pos != counterweight_pos_last) ||
+                (forearm_pos       != forearm_pos_last)){
+                Debug.Log("Updating Mass Props");
+                
+                // robot_params = new int[] {shoulder_pos, counterweight_pos, forearm_pos}; 
+                Native.Invoke<update_mass_props>(nativeLibraryPtr, forearm_pos, counterweight_pos, shoulder_pos);
+
+                shoulder_pos_last = shoulder_pos;
+                counterweight_pos_last = counterweight_pos;
+                forearm_pos_last = forearm_pos;
+            }
+        }
+
     }
 
     void OnApplicationQuit() {
-        // Dll.stop();
         Native.Invoke<stop>(nativeLibraryPtr);
         if (nativeLibraryPtr == IntPtr.Zero) return;
  
@@ -86,48 +122,11 @@ public class MOE_Script : MonoBehaviour {
                       : "Native library could not be unloaded.");
     }
 
-    // Dll Imports
-    // public class Dll {
-    //     [DllImport(import_module)] 
-    //     public static extern void start();
-    //     [DllImport(import_module)] 
-    //     public static extern void stop();
-    //     // [DllImport(import_module)] 
-    //     // public static extern void set_torques(double tau1, double tau2, double tau3, double tau4, double tau5);
-    //     // [DllImport(import_module)]
-    //     // public static extern void set_positions(double q1, double q2, double q3, double q4, double q5, double q6, double q7, double q8);
-    //     // [DllImport(import_module)]
-    //     // public static extern void set_velocities(double q1d, double q2d, double q3d, double q4d, double q5d, double q6d, double q7d, double q8d);
-    //     [DllImport(import_module)]
-    //     public static extern void get_positions(double[] positions);
-    // }
-
-    // [PluginAttr("meii_model")]
-    // public static class Dll
-    // {        
-    //     [PluginFunctionAttr("start")]
-    //     public static Start start = null;
-    //     public delegate void Start();
-        
-    //     [PluginFunctionAttr("stop")]
-    //     public static Stop stop = null;
-    //     public delegate void Stop();
-        
-    //     [PluginFunctionAttr("set_torques")]
-    //     public static Set_torques set_torques = null;
-    //     public delegate void Set_torques(double tau1, double tau2, double tau3, double tau4);
-        
-    //     [PluginFunctionAttr("set_positions")]
-    //     public static Set_positions set_positions = null;
-    //     public delegate void Set_positions(double q1, double q2, double q3, double q4, double q5, double q6, double q7);
-        
-    //     [PluginFunctionAttr("set_velocities")]
-    //     public static Set_velocities set_velocities = null;
-    //     public delegate void Set_velocities(double q1d, double q2d, double q3d, double q4d, double q5d, double q6d, double q7d);
-        
-    //     [PluginFunctionAttr("get_positions")]
-    //     public static Get_positions get_positions = null;
-    //     public delegate void Get_positions(double[] positions);
-    // }
+    int UpdateSlider(GameObject SliderObject, String title_text){
+        int slider_value = (int)Mathf.Round(SliderObject.transform.Find("Slider").GetComponent<Slider>().value);
+        if (title_text == "Shoulder Pos: ") slider_value = slider_value*15;
+        SliderObject.transform.Find("Title").GetComponent<Text>().text = title_text + slider_value.ToString();
+        return slider_value;
+    }
 }
 
