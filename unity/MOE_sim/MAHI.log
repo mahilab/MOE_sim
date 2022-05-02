@@ -291,3 +291,25 @@
 2022-01-20 12:58:35.932 WARN  [4956] Opened an existing mutex when trying to create NamedMutex refs_mutex
 2022-01-20 12:58:35.932 WARN  [4956] Opened an existing mutex when trying to create NamedMutex times_mutex
 2022-01-20 12:58:35.932 WARN  [4956] Opened an existing mutex when trying to create NamedMutex qs_mutex
+2022-05-01 19:56:32.009 INFO  [12404] Logger 0 Initialized
+2022-05-01 19:58:23.736 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:02:47.963 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:04:11.336 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:10:14.848 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:17:20.740 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:21:59.303 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:29:25.997 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:50:04.073 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:51:15.865 INFO  [12404] Logger 0 Initialized
+2022-05-01 20:55:00.289 INFO  [12404] Logger 0 Initialized
+2022-05-02 09:40:42.670 INFO  [12404] Logger 0 Initialized
+2022-05-02 09:42:54.962 INFO  [12404] Logger 0 Initialized
+2022-05-02 09:43:26.320 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_torque_0_mutex
+2022-05-02 09:43:26.320 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_torque_1_mutex
+2022-05-02 09:43:26.321 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_torque_2_mutex
+2022-05-02 09:43:26.321 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_torque_3_mutex
+2022-05-02 09:43:26.321 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_posvel_0_mutex
+2022-05-02 09:43:26.321 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_posvel_1_mutex
+2022-05-02 09:43:26.321 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_posvel_2_mutex
+2022-05-02 09:43:26.321 WARN  [35336] Opened an existing mutex when trying to create NamedMutex ms_posvel_3_mutex
+2022-05-02 09:51:15.959 INFO  [12404] Logger 0 Initialized

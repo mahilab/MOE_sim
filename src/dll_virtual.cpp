@@ -34,6 +34,9 @@ VectorXd b, V, G, Tau, Friction;
 
 VectorXd x, xd;
 
+mahi::util::Integrator q0dd_q0d, q1dd_q1d, q2dd_q2d, q3dd_q3d;
+mahi::util::Integrator q0d_q0, q1d_q1, q2d_q2, q3d_q3;
+
 // compute hardstop torque if robot is in an unavailable range
 inline double hardstop_torque(moe::MoeDynamicModel moe_model, int joint_id) {
     static const double hs_K = 100;
@@ -71,11 +74,13 @@ void simulation()
     MelShare ms_posvel_2("ms_posvel_2");
     MelShare ms_posvel_3("ms_posvel_3");
     double q0, q1, q2, q3;
+    q0 = q1 = q2 = q3 = 0.0;
     double q0d, q1d, q2d, q3d;
+    q0d = q1d = q2d = q3d = 0.0;
     double q0dd, q1dd, q2dd, q3dd;
+    q0dd = q1dd = q2dd = q3dd = 0.0;
     double tau0, tau1, tau2, tau3;
-    mahi::util::Integrator q0dd_q0d, q1dd_q1d, q2dd_q2d, q3dd_q3d;
-    mahi::util::Integrator q0d_q0, q1d_q1, q2d_q2, q3d_q3;
+    tau0 = tau1 = tau2 = tau3 = 0.0;
     std::vector<double> tau0_data, tau1_data, tau2_data, tau3_data;
     mahi::util::Timer timer(mahi::util::hertz(1000), mahi::util::Timer::Hybrid);
     mahi::util::Time t;
@@ -88,6 +93,9 @@ void simulation()
                 started = true;
                 std::lock_guard<std::mutex> lock(mtx);
                 model.update(std::vector<double>(4, 0), std::vector<double>(4, 0));
+                q0dd_q0d = q1dd_q1d = q2dd_q2d = q3dd_q3d = mahi::util::Integrator(0.0);
+                q0d_q0 = q1d_q1 = q2d_q2 = q3d_q3 = mahi::util::Integrator(0.0);
+                t = mahi::util::Time::Zero;
                 timer.restart();
             }
         }
@@ -111,32 +119,42 @@ void simulation()
                 Tau[2] = tau2 + hardstop_torque(model,2);
                 Tau[3] = tau3 + hardstop_torque(model,3);
 
+                constexpr double  B_coef[4] = {0.0393, 0.0691, 0.0068, 0.0025};
+                constexpr double Fk_coef[4] = {0.1838, 0.1572, 0.0996, 0.1685};
+
+                Friction[0] = B_coef[0]*q0d*1.0 + Fk_coef[0]*std::tanh(q0d*10);
+                Friction[1] = B_coef[1]*q1d*1.0 + Fk_coef[1]*std::tanh(q1d*10);
+                Friction[2] = B_coef[2]*q2d*1.0 + Fk_coef[2]*std::tanh(q2d*10);
+                Friction[3] = B_coef[3]*q3d*1.0 + Fk_coef[3]*std::tanh(q3d*10);
+
                 M = model.get_M();
                 V = model.get_V();
                 G = model.get_G();
-                Friction = model.get_Friction();
+                // Friction = model.get_Frisction();
                 auto A = M;
                 auto b = Tau - V - G - Friction;
                 x = A.inverse()*b;
+
+                q0dd = x[0];
+                q1dd = x[1];
+                q2dd = x[2];
+                q3dd = x[3];
+
+                // integrate acclerations to find velocities
+                q0d = q0dd_q0d.update(q0dd, t);
+                q1d = q1dd_q1d.update(q1dd, t);
+                q2d = q2dd_q2d.update(q2dd, t);
+                q3d = q3dd_q3d.update(q3dd, t);
+
+                // integrate velocities to find positions
+                q0 = q0d_q0.update(q0d, t);
+                q1 = q1d_q1.update(q1d, t);
+                q2 = q2d_q2.update(q2d, t);
+                q3 = q3d_q3.update(q3d, t);
+
+                model.update({q0, q1, q2, q3}, {q0d, q1d, q2d, q3d});
             }
-            q0dd = x[0];
-            q1dd = x[1];
-            q2dd = x[2];
-            q3dd = x[3];
 
-            // integrate acclerations to find velocities
-            q0d = q0dd_q0d.update(q0dd, t);
-            q1d = q1dd_q1d.update(q1dd, t);
-            q2d = q2dd_q2d.update(q2dd, t);
-            q3d = q3dd_q3d.update(q3dd, t);
-
-            // integrate velocities to find positions
-            q0 = q0d_q0.update(q0d, t);
-            q1 = q1d_q1.update(q1d, t);
-            q2 = q2d_q2.update(q2d, t);
-            q3 = q3d_q3.update(q3d, t);
-
-            model.update({q0, q1, q2, q3}, {q0d, q1d, q2d, q3d});
         }
 
         sim_time += mahi::util::milliseconds(1);
@@ -161,6 +179,8 @@ EXPORT void start()
     stop();
     model.update({0,0,0,0},{0,0,0,0});
     sim_stop = false;
+    q0dd_q0d = q1dd_q1d = q2dd_q2d = q3dd_q3d = mahi::util::Integrator(0.0);
+    q0d_q0 = q1d_q1 = q2d_q2 = q3d_q3 = mahi::util::Integrator(0.0);
     thread = std::thread(simulation);
 }
 
