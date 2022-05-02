@@ -41,7 +41,7 @@ public class MouseOrbit : MonoBehaviour {
  
     void LateUpdate () 
     {
-        if (Input.GetMouseButton(0))// && EventSystem.current.currentSelectedGameObject == null) 
+        if (Input.GetMouseButton(0) && EventSystem.current.currentSelectedGameObject == null) 
         {
             x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
             y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;

@@ -142,3 +142,28 @@ void MoeModel::reset() {
     set_velocities(0,0,0,0);
     logged = false;
 }
+
+void MoeModel::set_params(int shoulder_pos_, int counterweight_pos_, int forearm_pos_) {
+    double x_cw = PcxCw;
+    double y_cw = PcyCw + static_cast<double>(counterweight_pos_ - 4)*0.0127;
+    // std::cout << "y_cw: " << y_cw << std::endl;
+    // double z_cw = PczCw;
+    double x_sl = PcxSl;
+    double y_sl = PcySl + static_cast<double>(forearm_pos_-3)*0.005;
+    // std::cout << "y_sl: " << y_sl << std::endl;
+    // double z_sl = PczSl;
+    double newPcy = (mCw*y_cw + mSl*y_sl + mEl*PcyEl)/(mCw + mSl + mEl);
+    // Parallel Axis Thm
+    double Iczz_cw = IczzCw + mCw*((x_cw)*(x_cw)+(y_cw)*(y_cw));
+    double Iczz_sl = IczzSl + mSl*((x_sl)*(x_sl)+(y_sl)*(y_sl));
+    double Iczz_el = IczzEl + mEl*((PcxEl)*(PcxEl)+(PcyEl)*(PcyEl));
+    // moe_mass_props.all_props[0].Pcx = ;
+    Pcy0 = newPcy;
+    // moe_mass_props.all_props[0].Pcz = ;
+    // moe_mass_props.all_props[0].Icxx = ;
+    // moe_mass_props.all_props[0].Icyy = ;
+    Iczz0 = Iczz_cw + Iczz_sl + Iczz_el;
+
+    dist = 2.8024836E-1 - static_cast<double>(forearm_pos_ - 3)*0.005;
+    q_s = static_cast<double>(shoulder_pos_)*15.0*DEG2RAD;
+}

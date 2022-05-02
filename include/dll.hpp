@@ -33,3 +33,5 @@ EXPORT void set_positions(double q0, double q1, double q2, double q3);
 EXPORT void set_velocities(double q0d, double q1d, double q2d, double q3d);
 
 EXPORT void get_positions(double *positions);
+
+EXPORT void update_mass_props(int shoulder_pos_, int counterweight_pos_, int forearm_pos_);

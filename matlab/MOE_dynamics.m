@@ -15,7 +15,8 @@ syms tau0 eta0 Jm0 q0 qd0 qdd0 m0 b0 fk0 ...
      Pcx1 Pcy1 Pcz1   Icxx1 Icxy1 Icxz1 Icyy1 Icyz1 Iczz1 ...
      Pcx2 Pcy2 Pcz2   Icxx2 Icxy2 Icxz2 Icyy2 Icyz2 Iczz2 ...
      Pcx3 Pcy3 Pcz3   Icxx3 Icxy3 Icxz3 Icyy3 Icyz3 Iczz3 ...
-     g
+     g ...
+     dist q_s
 
 Tau = [tau0; tau1; tau2; tau3];
 
@@ -52,12 +53,12 @@ Ic3 = [Icxx3 -Icxy3 -Icxz3;
 
 %% Forward Kinematics
 % dist = -0.24269798;
-dist = -0.28024836;
+% dist = -0.28024836;
 
-DH_table = [    0     0    0      q0;
-                0 -pi/2 dist q1+pi/2;
-                0  pi/2    0 q2+pi/2;
-                0 -pi/2    0      q3];
+DH_table = [    0     0     0      q0;
+                0 -pi/2 -dist q1+pi/2;
+                0  pi/2     0 q2+pi/2;
+                0 -pi/2     0      q3];
 
 [~,T_array] = dh2tf(DH_table);
 
@@ -65,7 +66,8 @@ DH_table = [    0     0    0      q0;
 m = [m0;m1;m2;m3];
 Pc = {Pc0 Pc1 Pc2 Pc3};
 Ic = {Ic0 Ic1 Ic2 Ic3};
-g0 = [-g; 0; 0];
+% g0 = [-g; 0; 0];
+g0 = [-g*cos(q_s); 0; -g*sin(q_s)];
 MVG = dynamics_newtonian(m,Pc,Ic,T_array,Qd,Qdd,g0);
 MVG = simplify(expand(MVG));
 

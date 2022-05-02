@@ -16,6 +16,7 @@ public:
     void set_torques(double tau0_, double tau1_, double tau2_, double tau3_);
     void set_positions(double q0_, double q1_, double q2_, double q3_);
     void set_velocities(double q0d_, double q1d_, double q2d_, double q3d_);
+    void set_params(int shoulder_pos_, int counterweight_pos_, int forearm_pos_);
     void reset();
 
 public:

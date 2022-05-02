@@ -1,15 +1,16 @@
 #pragma once
 #include <Mahi/Util.hpp>
+#include <ExtraMassProps.hpp>
 
 constexpr double g = 9.80665;
 
 constexpr double Pcx0 = -0.0233129042532;
-constexpr double Pcy0 = 0.0483488772284;
+inline double Pcy0 = 0.0483488772284;
 constexpr double Pcz0 = 0.127016736165;
 constexpr double m0 = 7.1944709255;
 constexpr double Icxx0 = 0.214568298101;
 constexpr double Icyy0 = 0.182591849873;
-constexpr double Iczz0 = 0.0710999891315;
+inline double Iczz0 = 0.0710999891315;
 constexpr double Icxy0 = 0.00587540482373;
 constexpr double Icxz0 = -0.00731556178197;
 constexpr double Icyz0 = 0.0735366399691;

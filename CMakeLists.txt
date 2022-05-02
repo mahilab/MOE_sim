@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(MOESim VERSION 0.1.0)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 include(FetchContent) 
 FetchContent_Declare(mahi-com GIT_REPOSITORY https://github.com/mahilab/mahi-com.git) 
 FetchContent_MakeAvailable(mahi-com)
@@ -11,7 +14,7 @@ FetchContent_MakeAvailable(mahi-gui)
 
 include_directories(include)
 
-add_executable(test src/test.cpp)
+add_executable(test src/test.cpp include/MoeModel.hpp src/MoeModel.cpp)
 target_link_libraries(test mahi::util mahi::robo)
 
 add_executable(tuner_gui src/tuner.cpp)

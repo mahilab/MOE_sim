@@ -126,3 +126,9 @@ EXPORT void get_positions(double *positions)
     positions[2] = g_model.q2;
     positions[3] = g_model.q3;
 }
+
+EXPORT void update_mass_props(int shoulder_pos_, int counterweight_pos_, int forearm_pos_)
+{
+    std::lock_guard<std::mutex> lock(g_mtx);
+    g_model.set_params(shoulder_pos_, counterweight_pos_, forearm_pos_);
+}
