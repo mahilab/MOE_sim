@@ -1,4 +1,3 @@
-// #include "MoeModel.hpp"
 #include <MOE/MOE.hpp>
 #include <Mahi/Com.hpp>
 #include <Mahi/Util.hpp>
@@ -12,30 +11,29 @@
 
 #define EXPORT extern "C" __declspec(dllexport)
 
-// private functions that arent available from unity
-
-
-
 using namespace mahi::com;
-// using namespace mahi::util;
 using namespace mahi::robo;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+// single instances of some importnat models/variables
 moe::MoeDynamicModel model;
 moe::MoeParameters moe_params;
 std::thread thread;
 std::mutex mtx;
 std::atomic_bool sim_stop;
 
+// initialization of matrices that will be used
 MatrixXd A, M;
 VectorXd b, V, G, Tau, Friction;
 
+// state variables
 VectorXd x, xd;
 
 constexpr int n_j = 4;
 
+// tracking of joint positions, velocities, and accelerations
 std::vector<double> q(n_j,0);
 std::vector<double> qd(n_j,0);
 std::vector<double> qdd(n_j,0);
@@ -45,6 +43,7 @@ inline double hardstop_torque(moe::MoeDynamicModel moe_model, int joint_id) {
     static const double hs_K = 100;
     static const double hs_B = 0.1;
 
+    // get hardstop parameters from moe library
     double qmin = moe_params.pos_limits_min_[joint_id];
     double qmax = moe_params.pos_limits_max_[joint_id];
 
@@ -53,15 +52,20 @@ inline double hardstop_torque(moe::MoeDynamicModel moe_model, int joint_id) {
     else               return 0;
 }
 
+// simulation instance that runs in a separate thread
 void simulation()
 {
+    // create integrators that will integrate the state variables
     std::vector<mahi::util::Integrator> qdd_qd, qd_q;
     for (int i = 0; i < n_j; i++) {
         qdd_qd.push_back(mahi::util::Integrator(0));
         qd_q.push_back(mahi::util::Integrator(0));
     }
 
-    model.set_user_params({3,4,0});
+    // initially set user params to initiate mass properties
+    model.set_user_params({7,7,0});
+
+    // set all matrices to zero initial conditions before first calculation
     A        = MatrixXd::Zero(n_j, n_j);
     M        = MatrixXd::Zero(n_j, n_j);
     b        = VectorXd::Zero(n_j);
@@ -72,7 +76,9 @@ void simulation()
     x        = VectorXd::Zero(n_j);
     xd       = VectorXd::Zero(n_j);
 
-    bool started = false;
+    bool started = false; // keeps track of whether the sim has started or not
+
+    // shared memory to communicate to the MOE library
     MelShare ms_torque_0("ms_torque_0");
     MelShare ms_torque_1("ms_torque_1");
     MelShare ms_torque_2("ms_torque_2");
@@ -81,18 +87,27 @@ void simulation()
     MelShare ms_posvel_1("ms_posvel_1");
     MelShare ms_posvel_2("ms_posvel_2");
     MelShare ms_posvel_3("ms_posvel_3");
-    std::vector<double> taus(n_j,0);
+
+    // torque info that will be received from moe library
     std::vector<std::vector<double>> tau_datas;
     for (int i = 0; i < n_j; i++) tau_datas.push_back(std::vector<double>());
+
+    // taus received from moe sim (in a more usable format)
+    std::vector<double> taus(n_j,0);
+
+    // keeping track of simulation time
     mahi::util::Timer timer(mahi::util::hertz(1000), mahi::util::Timer::Hybrid);
     mahi::util::Time t;
     mahi::util::enable_realtime();
+
     while (!sim_stop)
     {
+        // if we haven't started yet, wait a torque to be input
         if(!started){
             if(!ms_torque_0.read_data().empty()){
                 started = true;
                 std::lock_guard<std::mutex> lock(mtx);
+                // update positions and velocities, and initialize integrators
                 model.update(std::vector<double>(4, 0), std::vector<double>(4, 0));
                 for (auto i = 0; i < n_j; i++) qdd_qd[i] = mahi::util::Integrator(0.0);
                 for (auto i = 0; i < n_j; i++) qd_q[i] = mahi::util::Integrator(0.0);
@@ -101,55 +116,54 @@ void simulation()
             }
         }
 
+        // read torque input from melshare
         tau_datas[0] = ms_torque_0.read_data();
         tau_datas[1] = ms_torque_1.read_data();
         tau_datas[2] = ms_torque_2.read_data();
         tau_datas[3] = ms_torque_3.read_data();
-
         for(auto i = 0; i < n_j; i++) {
             taus[i] = !tau_datas[i].empty() ? tau_datas[i][0] : 0.0;
         }
 
         {
             std::lock_guard<std::mutex> lock(mtx);
-            // model.set_torques(tau0,tau1,tau2,tau3);
+            
             if(started){
+                // add hardstop torque if robot is in an unavailable range
                 Tau[0] = taus[0] + hardstop_torque(model,0);
                 Tau[1] = taus[1] + hardstop_torque(model,1);
                 Tau[2] = taus[2] + hardstop_torque(model,2);
                 Tau[3] = taus[3] + hardstop_torque(model,3);
 
-                // constexpr double  B_coef[4] = {0.0393, 0.0691, 0.0068, 0.0025};
-                // constexpr double Fk_coef[4] = {0.1838, 0.1572, 0.0996, 0.1685};
-
-                // Friction[0] = B_coef[0]*qd[0]*1.0 + Fk_coef[0]*std::tanh(qd[0]*10);
-                // Friction[1] = B_coef[1]*qd[1]*1.0 + Fk_coef[1]*std::tanh(qd[1]*10);
-                // Friction[2] = B_coef[2]*qd[2]*1.0 + Fk_coef[2]*std::tanh(qd[2]*10);
-                // Friction[3] = B_coef[3]*qd[3]*1.0 + Fk_coef[3]*std::tanh(qd[3]*10);
-
+                // calculate dynamics
                 M = model.get_M();
                 V = model.get_V();
                 G = model.get_G();
                 Friction = model.get_Friction();
+                
+                // solve for accelerations
                 auto A = M;
                 auto b = Tau - V - G - Friction;
                 x = A.inverse()*b;
 
+                // calculate velocities and positions using integrators
                 for (auto i = 0; i < n_j; i++){
                     qdd[i] = x(i);
                     qd[i]  = qdd_qd[i].update(qdd[i], t);
                     q[i]   = qd_q[i].update(qd[i], t);
                 }
 
+                // update the state of the moe model
                 model.update(q, qd);
             }
-
         }
 
+        // write output position data to the moe library
         ms_posvel_0.write_data({q[0],qd[0]});
         ms_posvel_1.write_data({q[1],qd[1]});
         ms_posvel_2.write_data({q[2],qd[2]});
         ms_posvel_3.write_data({q[3],qd[3]});
+
         t = timer.wait();
     }
     mahi::util::disable_realtime();
@@ -157,6 +171,7 @@ void simulation()
 
 EXPORT void stop()
 {
+    // close the simulation thread 
     sim_stop = true;
     if (thread.joinable())
         thread.join();
@@ -164,6 +179,7 @@ EXPORT void stop()
 
 EXPORT void start()
 {
+    // close the stimulation thread if there was one, and start a new one with zero initial conditions
     stop();
     q = std::vector<double>(n_j, 0.0);
     qd = std::vector<double>(n_j, 0.0);
@@ -172,6 +188,7 @@ EXPORT void start()
     thread = std::thread(simulation);
 }
 
+// function for unity to pull positions from the sim
 EXPORT void get_positions(double *positions)
 {
     std::lock_guard<std::mutex> lock(mtx);
@@ -181,6 +198,7 @@ EXPORT void get_positions(double *positions)
     positions[3] = q[3];
 }
 
+// function for unity to send new mass properties to the sim
 EXPORT void update_mass_props(int forearm_pos, int counterweight_pos, double shoulder_pos)
 {
     std::lock_guard<std::mutex> lock(mtx);
