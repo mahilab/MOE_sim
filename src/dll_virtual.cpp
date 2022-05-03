@@ -25,7 +25,7 @@ std::mutex mtx;
 std::atomic_bool sim_stop;
 
 // initialization of matrices that will be used
-MatrixXd A, M;
+MatrixXd A, M , Rotor;
 VectorXd b, V, G, Tau, Friction;
 
 // state variables
@@ -68,6 +68,7 @@ void simulation()
     // set all matrices to zero initial conditions before first calculation
     A        = MatrixXd::Zero(n_j, n_j);
     M        = MatrixXd::Zero(n_j, n_j);
+    Rotor    = MatrixXd::Zero(n_j, n_j);
     b        = VectorXd::Zero(n_j);
     V        = VectorXd::Zero(n_j);
     G        = VectorXd::Zero(n_j);
@@ -139,10 +140,11 @@ void simulation()
                 M = model.get_M();
                 V = model.get_V();
                 G = model.get_G();
+                Rotor = model.get_rotor_inertia();
                 Friction = model.get_Friction();
                 
                 // solve for accelerations
-                auto A = M;
+                auto A = M + Rotor;
                 auto b = Tau - V - G - Friction;
                 x = A.inverse()*b;
 
@@ -199,7 +201,7 @@ EXPORT void get_positions(double *positions)
 }
 
 // function for unity to send new mass properties to the sim
-EXPORT void update_mass_props(int forearm_pos, int counterweight_pos, double shoulder_pos)
+EXPORT void update_mass_props(int forearm_pos, int counterweight_pos, int shoulder_pos)
 {
     std::lock_guard<std::mutex> lock(mtx);
     model.set_user_params({forearm_pos, counterweight_pos, shoulder_pos});
