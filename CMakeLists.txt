@@ -4,7 +4,7 @@ project(MOESim VERSION 0.1.0)
 include(FetchContent) 
 FetchContent_Declare(moe 
                      GIT_REPOSITORY https://github.com/mahilab/moe.git
-                     GIT_TAG origin/dynamics-separation) 
+                     GIT_TAG main) 
 FetchContent_MakeAvailable(moe)
 
 FetchContent_Declare(mahi-gui GIT_REPOSITORY https://github.com/mahilab/mahi-gui.git) 
@@ -15,7 +15,7 @@ target_link_libraries(test moe)
 
 # virtual - working with the MOE c++ library
 add_library(virtual_moe SHARED src/dll_virtual.cpp)
-target_link_libraries(virtual_moe moe)
+target_link_libraries(virtual_moe moe mahi::gui)
 
 add_custom_command(TARGET virtual_moe POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different

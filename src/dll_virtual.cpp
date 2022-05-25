@@ -2,6 +2,7 @@
 #include <Mahi/Com.hpp>
 #include <Mahi/Util.hpp>
 #include <Mahi/Robo.hpp>
+#include <Mahi/Gui.hpp>
 #include <thread>
 #include <mutex>
 #include <atomic>
@@ -23,10 +24,11 @@ moe::MoeParameters moe_params;
 std::thread thread;
 std::mutex mtx;
 std::atomic_bool sim_stop;
+bool first_time = true;
 
 // initialization of matrices that will be used
 MatrixXd A, M , Rotor;
-VectorXd b, V, G, Tau, Friction;
+VectorXd b, V, G_, Tau, Friction;
 
 // state variables
 VectorXd x, xd;
@@ -62,8 +64,10 @@ void simulation()
         qd_q.push_back(mahi::util::Integrator(0));
     }
 
-    // initially set user params to initiate mass properties
-    model.set_user_params({7,7,0});
+    if (first_time){
+        model.set_user_params({7,7,0});
+        first_time = false;
+    }
 
     // set all matrices to zero initial conditions before first calculation
     A        = MatrixXd::Zero(n_j, n_j);
@@ -71,7 +75,7 @@ void simulation()
     Rotor    = MatrixXd::Zero(n_j, n_j);
     b        = VectorXd::Zero(n_j);
     V        = VectorXd::Zero(n_j);
-    G        = VectorXd::Zero(n_j);
+    G_        = VectorXd::Zero(n_j);
     Tau      = VectorXd::Zero(n_j);
     Friction = VectorXd::Zero(n_j);
     x        = VectorXd::Zero(n_j);
@@ -139,13 +143,13 @@ void simulation()
                 // calculate dynamics
                 M = model.get_M();
                 V = model.get_V();
-                G = model.get_G();
+                G_ = model.get_G();
                 Rotor = model.get_rotor_inertia();
                 Friction = model.get_Friction();
                 
                 // solve for accelerations
                 auto A = M + Rotor;
-                auto b = Tau - V - G - Friction;
+                auto b = Tau - V - G_ - Friction;
                 x = A.inverse()*b;
 
                 // calculate velocities and positions using integrators
@@ -205,4 +209,15 @@ EXPORT void update_mass_props(int forearm_pos, int counterweight_pos, int should
 {
     std::lock_guard<std::mutex> lock(mtx);
     model.set_user_params({forearm_pos, counterweight_pos, shoulder_pos});
+}
+
+EXPORT void add_arm_model(){
+    std::string out;
+    stop();
+
+    if (mahi::gui::pick_dialog(out) == mahi::gui::DialogResult::DialogOkay){
+        model.add_arm_props(out);
+        LOG(mahi::util::Info) << "Loaded file " << out;
+    }
+    start();
 }

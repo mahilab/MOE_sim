@@ -39,7 +39,10 @@ public class MOE_Script : MonoBehaviour {
 
     double[] qs = new double[4];
 
-     const string import_module = "virtual_moe";
+    float MassPropRefreshTime = 0.25f;
+    float CurrentTime = 0.25f;
+
+    const string import_module = "virtual_moe";
 
     static IntPtr nativeLibraryPtr;
  
@@ -47,7 +50,8 @@ public class MOE_Script : MonoBehaviour {
     delegate void stop();
 
     delegate void get_positions(double[] positions);
-    delegate void update_mass_props(int slider_pos, int counterweight_pos, double shoulder_pos);
+    delegate void update_mass_props(int slider_pos, int counterweight_pos, int shoulder_pos);
+    delegate void add_arm_model();
 
     // opens the virtual_moe.dll provided
     void Awake()
@@ -92,6 +96,8 @@ public class MOE_Script : MonoBehaviour {
             Native.Invoke<start>(nativeLibraryPtr);
         }
 
+        CurrentTime -= Time.deltaTime;
+
         // if update the text above the sliders based on the slider positions
         shoulder_pos = UpdateSlider(ShoulderSlider, "Shoulder Pos: ");
         counterweight_pos = UpdateSlider(CounterweightSlider, "Counterweight Pos: ");
@@ -101,15 +107,19 @@ public class MOE_Script : MonoBehaviour {
         UpdateParameterVisuals();
 
         // if anything has changed, updated the moe model
-        if ((shoulder_pos      != shoulder_pos_last)      ||
+        if (((shoulder_pos      != shoulder_pos_last)      ||
             (counterweight_pos != counterweight_pos_last) ||
-            (slider_pos        != slider_pos_last)){
+            (slider_pos        != slider_pos_last)) 
+            && (CurrentTime <= 0)){
+            Debug.Log(CurrentTime);
             
             Native.Invoke<update_mass_props>(nativeLibraryPtr, slider_pos, counterweight_pos, shoulder_pos);
 
             shoulder_pos_last = shoulder_pos;
             counterweight_pos_last = counterweight_pos;
             slider_pos_last = slider_pos;
+
+            CurrentTime = MassPropRefreshTime;
         }
 
     }
@@ -138,6 +148,10 @@ public class MOE_Script : MonoBehaviour {
         // update the text of the slider to match the value
         SliderObject.transform.Find("Title").GetComponent<Text>().text = title_text + slider_value.ToString();
         return slider_value;
+    }
+
+    public void dll_add_arm_model(){
+        Native.Invoke<add_arm_model>(nativeLibraryPtr);
     }
 }
 
