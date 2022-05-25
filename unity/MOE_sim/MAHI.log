@@ -850,3 +850,77 @@ bd2DownloadsNathan6Nathan6
 2022-05-25 10:44:36.166 WARN  [19708] J0 is already initialized. you are overwriting previous mass properties.
 2022-05-25 10:44:36.271 WARN  [19708] J0 is already initialized. you are overwriting previous mass properties.
 2022-05-25 10:44:36.372 WARN  [19708] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:12:07.560 INFO  [3068] Logger 0 Initialized
+2022-05-25 11:12:07.629 WARN  [5124] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:12:11.499 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:12:12.571 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:12:13.762 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:12:57.409 INFO  [3068] Loaded file C:\Users\nbd2\Box\MAHI_Open_Exo\Model_Optimization\ArmOpt\Jeffery2
+2022-05-25 11:13:00.291 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:13:00.588 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:13:00.948 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:13:01.572 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:13:02.005 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:13:04.559 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:13:04.823 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:13:05.085 ERROR [3068] Cannot reinitialize J0 after adding arm properties.
+2022-05-25 11:15:39.354 INFO  [3068] Logger 0 Initialized
+2022-05-25 11:15:39.426 WARN  [28804] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:15:49.442 INFO  [3068] Loaded file C:\Users\nbd2\Box\MAHI_Open_Exo\Model_Optimization\ArmOpt\Jeffery2
+2022-05-25 11:21:22.163 INFO  [3068] Logger 0 Initialized
+2022-05-25 11:21:22.235 WARN  [3536] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:21:37.232 INFO  [3068] Logger 0 Initialized
+2022-05-25 11:21:37.284 WARN  [24108] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:24:15.969 INFO  [3068] Logger 0 Initialized
+2022-05-25 11:24:16.062 WARN  [20928] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:24:31.663 INFO  [3068] Logger 0 Initialized
+2022-05-25 11:24:31.711 WARN  [2568] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:24:50.214 INFO  [3068] Loaded file C:\Users\nbd2\Box\MAHI_Open_Exo\Model_Optimization\ArmOpt\Jeffery2
+2022-05-25 11:25:20.385 INFO  [3068] Logger 0 Initialized
+2022-05-25 11:25:20.564 WARN  [1776] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:25:22.256 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:25:22.509 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:25:22.924 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:25:23.209 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 11:25:25.364 INFO  [3068] Loaded file C:\Users\nbd2\Box\MAHI_Open_Exo\Model_Optimization\ArmOpt\Jeffery2
+2022-05-25 12:07:15.186 INFO  [3068] Logger 0 Initialized
+2022-05-25 12:07:15.259 WARN  [19008] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:39.058 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:40.637 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:41.834 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:42.089 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:43.202 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:43.468 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:45.154 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:46.027 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:07:46.508 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:59:21.667 INFO  [3068] Logger 0 Initialized
+2022-05-25 12:59:21.739 WARN  [6872] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:59:23.465 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 12:59:24.899 WARN  [3068] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:00.985 INFO  [14252] Logger 0 Initialized
+2022-05-25 13:01:01.064 WARN  [14056] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:21.140 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:21.385 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:22.319 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:23.241 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:24.370 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:24.627 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:26.114 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:26.369 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:26.637 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:26.895 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:01:27.489 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:02:54.071 INFO  [14252] Logger 0 Initialized
+2022-05-25 13:02:54.151 WARN  [22424] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:02:58.816 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:02:59.150 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:00.149 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:00.822 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:01.816 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:02.086 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:02.579 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:02.838 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:03.183 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:03:04.575 WARN  [14252] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-25 13:04:01.986 INFO  [14252] Loaded file C:\Users\nbd2\Box\MAHI_Open_Exo\Model_Optimization\ArmOpt\Jeffery2

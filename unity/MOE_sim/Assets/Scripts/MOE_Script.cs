@@ -29,6 +29,8 @@ public class MOE_Script : MonoBehaviour {
     public GameObject CounterweightSlider;
     public GameObject ForearmSlider;
 
+    public GameObject ArmWarning;
+
     int shoulder_pos = 0;
     int counterweight_pos = 7;
     int slider_pos = 7;
@@ -125,7 +127,7 @@ public class MOE_Script : MonoBehaviour {
     }
 
     void UpdateParameterVisuals(){
-        Fx_PostShoulder.transform.localEulerAngles = new Vector3( -1*shoulder_pos, 0, 0);
+        Fx_PostShoulder.transform.localEulerAngles = new Vector3( -1*shoulder_pos*15.0f, 0, 0);
         J0_slider.transform.localPosition = new Vector3(0.005f*(slider_pos-3), 0, 0);
         J0_counterweight.transform.localPosition = new Vector3( 0.0127f*(counterweight_pos-4), 0, 0);
     }
@@ -143,8 +145,6 @@ public class MOE_Script : MonoBehaviour {
     int UpdateSlider(GameObject SliderObject, String title_text){
         // pull the slider value
         int slider_value = (int)Mathf.Round(SliderObject.transform.Find("Slider").GetComponent<Slider>().value);
-        // if it is the slider, multiply by 15 bc there are 15 degree increments
-        if (title_text == "Shoulder Pos: ") slider_value = slider_value*15;
         // update the text of the slider to match the value
         SliderObject.transform.Find("Title").GetComponent<Text>().text = title_text + slider_value.ToString();
         return slider_value;
@@ -152,6 +152,11 @@ public class MOE_Script : MonoBehaviour {
 
     public void dll_add_arm_model(){
         Native.Invoke<add_arm_model>(nativeLibraryPtr);
+
+        ShoulderSlider.transform.Find("Slider").GetComponent<Slider>().enabled = false;
+        ForearmSlider.transform.Find("Slider").GetComponent<Slider>().enabled = false;
+        CounterweightSlider.transform.Find("Slider").GetComponent<Slider>().enabled = false;
+        ArmWarning.SetActive(true);
     }
 }
 
