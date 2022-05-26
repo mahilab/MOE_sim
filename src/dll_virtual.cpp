@@ -40,6 +40,9 @@ std::vector<double> q(n_j,0);
 std::vector<double> qd(n_j,0);
 std::vector<double> qdd(n_j,0);
 
+// Input joint torques from sim
+std::vector<double> input_torques(n_j,0);
+
 // compute hardstop torque if robot is in an unavailable range
 inline double hardstop_torque(moe::MoeDynamicModel moe_model, int joint_id) {
     static const double hs_K = 100;
@@ -135,10 +138,10 @@ void simulation()
             
             if(started){
                 // add hardstop torque if robot is in an unavailable range
-                Tau[0] = taus[0] + hardstop_torque(model,0);
-                Tau[1] = taus[1] + hardstop_torque(model,1);
-                Tau[2] = taus[2] + hardstop_torque(model,2);
-                Tau[3] = taus[3] + hardstop_torque(model,3);
+                Tau[0] = taus[0] + hardstop_torque(model,0) + input_torques[0];
+                Tau[1] = taus[1] + hardstop_torque(model,1) + input_torques[1];
+                Tau[2] = taus[2] + hardstop_torque(model,2) + input_torques[2];
+                Tau[3] = taus[3] + hardstop_torque(model,3) + input_torques[3];
 
                 // calculate dynamics
                 M = model.get_M();
@@ -220,4 +223,13 @@ EXPORT void add_arm_model(){
         LOG(mahi::util::Info) << "Loaded file " << out;
     }
     start();
+}
+
+EXPORT void send_torques(double *torques)
+{
+    std::lock_guard<std::mutex> lock(mtx);
+    input_torques[0] = torques[0];
+    input_torques[1] = torques[1];
+    input_torques[2] = torques[2];
+    input_torques[3] = torques[3];
 }
