@@ -1310,3 +1310,7 @@ bd2DownloadsNathan6Nathan6
 2022-05-26 14:07:30.713 WARN  [28024] J0 is already initialized. you are overwriting previous mass properties.
 2022-05-26 14:12:40.125 INFO  [3204] Logger 0 Initialized
 2022-05-26 14:12:40.250 WARN  [26076] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-26 14:15:57.309 INFO  [3204] Logger 0 Initialized
+2022-05-26 14:15:57.428 WARN  [7336] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-26 14:19:43.466 WARN  [3204] J0 is already initialized. you are overwriting previous mass properties.
+2022-05-26 14:20:49.329 WARN  [3204] J0 is already initialized. you are overwriting previous mass properties.
