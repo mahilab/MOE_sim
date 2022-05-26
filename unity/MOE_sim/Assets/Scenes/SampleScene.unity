@@ -7281,6 +7281,7 @@ GameObject:
   - component: {fileID: 1687258586}
   - component: {fileID: 1687258588}
   - component: {fileID: 1687258587}
+  - component: {fileID: 1687258589}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7480,6 +7481,27 @@ MonoBehaviour:
   WFESlider: {fileID: 341782257}
   WRUSlider: {fileID: 1105198116}
   ArmWarning: {fileID: 29793957}
+  TorqueToggle: {fileID: 547950002}
+  DOFSelector: {fileID: 2009204117}
+--- !u!114 &1687258589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687258581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca9fb582732228b4fa6a348ca30ce20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TorqueIputSingle: {fileID: 0}
+  TorqueInputMulti: {fileID: 2046539347}
+  TorqueSlider: {fileID: 1232225220}
+  EFESlider: {fileID: 1282441869}
+  FPSSlider: {fileID: 1394431922}
+  WFESlider: {fileID: 341782257}
+  WRUSlider: {fileID: 1105198116}
   TorqueToggle: {fileID: 547950002}
   DOFSelector: {fileID: 2009204117}
 --- !u!1 &1714089764
