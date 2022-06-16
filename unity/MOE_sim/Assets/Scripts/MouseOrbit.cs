@@ -46,6 +46,9 @@ public class MouseOrbit : MonoBehaviour {
             x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
             y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
         }
+        if (EventSystem.current.currentSelectedGameObject != null){
+            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        }
  
         y = ClampAngle(y, yMinLimit, yMaxLimit);
 
