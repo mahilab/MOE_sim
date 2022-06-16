@@ -98,11 +98,11 @@ public class MOE_Script : MonoBehaviour {
         J3.transform.localEulerAngles        = new Vector3(0, 0, -q3*Mathf.Rad2Deg);
     
         // if the user hits R, reset the simulation
-        // if (Input.GetKeyDown(KeyCode.R))
-        // {
-        //     Native.Invoke<stop>(nativeLibraryPtr);
-        //     Native.Invoke<start>(nativeLibraryPtr);
-        // }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Native.Invoke<stop>(nativeLibraryPtr);
+            Native.Invoke<start>(nativeLibraryPtr);
+        }
 
         CurrentTime -= Time.deltaTime;
 
